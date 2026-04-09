@@ -1,0 +1,37 @@
+
+:root {
+  /* ── 폰트 */
+  --font-body:    'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
+  --font-heading: 'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
+  --font-mono:    'Fira Code', 'Consolas', monospace;
+
+  /* ── 브랜드 색상 */
+  --color-primary:    #6366f1;   /* Indigo-500 */
+  --color-on-primary: #ffffff;
+  --color-secondary:  #8b5cf6;   /* Violet-500 */
+
+  /* ── 배경 / 서피스 */
+  --color-bg:      #f1f5f9;      /* Slate-100 */
+  --color-surface: #ffffff;
+  --color-border:  #e2e8f0;      /* Slate-200 */
+
+  /* ── 텍스트 */
+  --color-text:       #1e293b;   /* Slate-800 */
+  --color-text-muted: #64748b;   /* Slate-500 */
+
+  /* ── 네비게이션 (다크 사이드바) */
+  --color-nav-bg:   #1e293b;     /* Slate-800 */
+  --color-nav-text: #cbd5e1;     /* Slate-300 */
+
+  /* ── 상태 색상 */
+  --color-success:    #16a34a;
+  --color-success-bg: #dcfce7;
+  --color-error:      #dc2626;
+  --color-error-bg:   #fee2e2;
+  --color-warning:    #d97706;
+  --color-warning-bg: #fef3c7;
+
+  /* ── 그림자 */
+  --shadow-sm:  0 1px 3px rgba(99,102,241,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:  0 4px 16px rgba(99,102,241,.12), 0 2px 6px rgba(0,0,0,.06);
+}

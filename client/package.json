@@ -1,0 +1,38 @@
+{
+  "name": "gomindokki-client",
+  "version": "1.0.0",
+  "private": true,
+  "description": "고민중독 - 실시간 자세 분석 및 집중 케어 플랫폼 프론트엔드",
+  "scripts": {
+    "start": "set PORT=3000 && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@mediapipe/camera_utils": "^0.3.1675466862",
+    "@mediapipe/holistic": "^0.5.1675471629",
+    "@mediapipe/pose": "^0.5.1675469404",
+    "axios": "^1.7.2",
+    "chart.js": "^4.4.3",
+    "react": "^18.3.1",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.0",
+    "react-scripts": "^5.0.1",
+    "socket.io-client": "^4.7.5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:5000"
+}

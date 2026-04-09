@@ -1,0 +1,41 @@
+/* ═══════════════════════════════════════════════════════
+   skin-bg-space.css ── 우주 배경 테마
+   ═══════════════════════════════════════════════════════ */
+[data-skin="bg-space"] {
+  --color-primary:    #818cf8;
+  --color-on-primary: #1e1b4b;
+  --color-secondary:  #a78bfa;
+
+  --color-bg:      #0f0c29;
+  --color-surface: #1a1744;
+  --color-border:  #312e7a;
+
+  --color-text:       #e2e8f0;
+  --color-text-muted: #94a3b8;
+
+  --color-nav-bg:   #07050f;
+  --color-nav-text: #a5b4fc;
+
+  --color-success:    #4ade80;
+  --color-success-bg: rgba(74,222,128,.15);
+  --color-error:      #f87171;
+  --color-error-bg:   rgba(248,113,113,.15);
+  --color-warning:    #fbbf24;
+  --color-warning-bg: rgba(251,191,36,.15);
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.5);
+  --shadow-md: 0 4px 20px rgba(0,0,0,.6);
+}
+
+/* ✅ 우주 배경 애니메이션 */
+[data-skin="bg-space"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(120,119,198,.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(99,102,241,.2) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ccircle cx='50'  cy='80'  r='1' fill='white' opacity='.6'/%3E%3Ccircle cx='150' cy='30'  r='1.5' fill='white' opacity='.8'/%3E%3Ccircle cx='250' cy='120' r='1' fill='white' opacity='.5'/%3E%3Ccircle cx='350' cy='60'  r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='80'  cy='200' r='1.5' fill='white' opacity='.6'/%3E%3Ccircle cx='320' cy='250' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='180' cy='300' r='1' fill='white' opacity='.5'/%3E%3Ccircle cx='280' cy='350' r='1.5' fill='white' opacity='.7'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}

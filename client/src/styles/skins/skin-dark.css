@@ -1,0 +1,35 @@
+/* ═══════════════════════════════════════════════════════
+   src/styles/skins/skin-dark.css
+   ── 다크 스킨: 전체 다크 모드
+   ═══════════════════════════════════════════════════════ */
+
+[data-skin="dark"] { 
+  --font-body:    'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
+  --font-heading: 'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
+  --font-mono:    monospace;
+
+  --color-primary:    #818cf8;   /* Indigo-400 (밝게) */
+  --color-on-primary: #1e1b4b;
+  --color-secondary:  #a78bfa;   /* Violet-400 */
+
+  --color-bg:      #0f172a;      /* Slate-900 */
+  --color-surface: #1e293b;      /* Slate-800 */
+  --color-border:  #334155;      /* Slate-700 */
+
+  --color-text:       #e2e8f0;   /* Slate-200 */
+  --color-text-muted: #94a3b8;   /* Slate-400 */
+
+  /* 더 어두운 사이드바 */
+  --color-nav-bg:   #020617;     /* Slate-950 */
+  --color-nav-text: #94a3b8;
+
+  --color-success:    #4ade80;
+  --color-success-bg: rgba(74,222,128,.15);
+  --color-error:      #f87171;
+  --color-error-bg:   rgba(248,113,113,.15);
+  --color-warning:    #fbbf24;
+  --color-warning-bg: rgba(251,191,36,.15);
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.4);
+  --shadow-md:  0 4px 20px rgba(0,0,0,.5);
+}

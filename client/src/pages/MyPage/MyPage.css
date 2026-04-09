@@ -1,0 +1,902 @@
+/* client/src/pages/MyPage/MyPage.css */
+
+.mypage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  max-width: 900px;
+}
+
+/* ══════════════════════════════════════
+   프로필 히어로
+══════════════════════════════════════ */
+.mypage-hero {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.hero-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .2);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  font-weight: 800;
+  border: 3px solid rgba(255, 255, 255, .5);
+  flex-shrink: 0;
+}
+
+.hero-info {
+  flex: 1;
+}
+
+.hero-nick {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0 0 4px;
+}
+
+.hero-email {
+  font-size: .88rem;
+  opacity: .75;
+  margin: 0 0 var(--spacing-sm);
+}
+
+.hero-stats {
+  display: flex;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-stat__val {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.hero-stat__label {
+  font-size: .72rem;
+  opacity: .75;
+}
+
+/* ══════════════════════════════════════
+   탭 네비게이션
+══════════════════════════════════════ */
+.mypage-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.tab-btn.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.tab-btn:hover:not(.active) {
+  color: var(--color-text);
+}
+
+/* ══════════════════════════════════════
+   탭 콘텐츠 공통
+══════════════════════════════════════ */
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* ══════════════════════════════════════
+   빈 상태
+══════════════════════════════════════ */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3xl) 0;
+  gap: var(--spacing-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.empty-state__icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-state--sm {
+  padding: var(--spacing-xl) 0;
+}
+
+.empty-state--sm .empty-state__icon {
+  font-size: 2rem;
+}
+
+/* ══════════════════════════════════════
+   📊 통계 탭
+══════════════════════════════════════ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 680px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card h4 {
+  font-size: .8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin: 0 0 var(--spacing-xs);
+}
+
+.stat-card__val {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+/* 차트 카드 - 전체 너비 */
+.stat-card--wide {
+  grid-column: span 2;
+}
+
+@media (max-width: 680px) {
+  .stat-card--wide {
+    grid-column: span 1;
+  }
+}
+
+/* ── 자세 패턴 분석 */
+.pose-stats-section {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.pose-stats__title {
+  font-size: .8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin: 0 0 var(--spacing-md);
+}
+
+.pose-stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.pose-stat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  gap: var(--spacing-md);
+}
+
+.pose-stat-item__left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-width: 140px;
+}
+
+.pose-stat-item__rank {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  min-width: 20px;
+}
+
+.pose-stat-item__icon {
+  font-size: 1.2rem;
+}
+
+.pose-stat-item__label {
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.pose-stat-item__right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.pose-stat-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.pose-stat-bar__fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width .6s ease;
+}
+
+.pose-stat-item__count {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--color-text);
+  min-width: 32px;
+  text-align: right;
+}
+
+/* ══════════════════════════════════════
+   🏆 랭킹 탭
+══════════════════════════════════════ */
+.ranking-header {
+  text-align: center;
+  padding: var(--spacing-sm) 0;
+}
+
+.ranking-header__title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0 0 4px;
+}
+
+.ranking-header__desc {
+  font-size: .78rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.ranking-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.ranking-item--top1 {
+  background: linear-gradient(135deg, rgba(255, 215, 0, .15), rgba(255, 165, 0, .08));
+  border-color: rgba(255, 215, 0, .5);
+}
+
+.ranking-item--top2 {
+  background: linear-gradient(135deg, rgba(192, 192, 192, .15), rgba(169, 169, 169, .08));
+  border-color: rgba(192, 192, 192, .5);
+}
+
+.ranking-item--top3 {
+  background: linear-gradient(135deg, rgba(205, 127, 50, .15), rgba(184, 115, 51, .08));
+  border-color: rgba(205, 127, 50, .5);
+}
+
+.ranking-item--me {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.ranking-item__rank {
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ranking-medal {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.ranking-num {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.ranking-item__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.ranking-item__avatar--me {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: #fff;
+}
+
+.ranking-item__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ranking-item__nick {
+  font-size: .92rem;
+  font-weight: 700;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ranking-me-badge {
+  font-size: .65rem;
+  font-weight: 700;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+}
+
+/* ── 점수 breakdown */
+.ranking-item__breakdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.breakdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: var(--radius-md);
+  line-height: 1.3;
+}
+
+.breakdown-item--max {
+  background: rgba(59, 130, 246, .12);
+  border: 1px solid rgba(59, 130, 246, .3);
+}
+
+.breakdown-item--max .breakdown-item__val {
+  color: #3b82f6;
+}
+
+.breakdown-item--total {
+  background: rgba(22, 163, 74, .12);
+  border: 1px solid rgba(22, 163, 74, .3);
+}
+
+.breakdown-item--total .breakdown-item__val {
+  color: #16a34a;
+}
+
+.breakdown-item--score {
+  background: rgba(99, 102, 241, .12);
+  border: 1px solid rgba(99, 102, 241, .3);
+}
+
+.breakdown-item--score .breakdown-item__val {
+  color: var(--color-primary);
+}
+
+.breakdown-item__label {
+  font-size: .62rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+
+.breakdown-item__val {
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.breakdown-plus {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.ranking-item__score {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.ranking-item__score-val {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.ranking-item__score-label {
+  font-size: .75rem;
+  color: var(--color-text-muted);
+}
+
+.ranking-divider {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 1.2rem;
+  letter-spacing: 4px;
+  padding: var(--spacing-xs) 0;
+}
+
+.ranking-item--my-rank {
+  border-style: dashed;
+}
+
+/* ══════════════════════════════════════
+   🏅 뱃지 탭
+══════════════════════════════════════ */
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.badge-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid var(--color-border);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+  position: relative;
+}
+
+.badge-card.owned {
+  border-color: var(--color-primary);
+}
+
+.badge-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.badge-card__name {
+  font-size: .9rem;
+  font-weight: 700;
+  margin: var(--spacing-sm) 0 var(--spacing-xs);
+}
+
+.badge-card__desc {
+  font-size: .75rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.badge-card__cost {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-top: var(--spacing-sm);
+}
+
+.badge-card__owned {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: .7rem;
+}
+
+.badge-card.locked {
+  opacity: .55;
+  filter: grayscale(.5);
+}
+
+/* ══════════════════════════════════════
+   💎 포인트 탭
+══════════════════════════════════════ */
+.point-total {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.point-total__label {
+  font-size: .9rem;
+  opacity: .85;
+}
+
+.point-total__value {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.point-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.point-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-border);
+}
+
+.point-item--plus {
+  border-left-color: var(--color-success);
+}
+
+.point-item--minus {
+  border-left-color: var(--color-error);
+}
+
+.point-item__type {
+  font-size: .88rem;
+  color: var(--color-text);
+}
+
+.point-item__date {
+  font-size: .75rem;
+  color: var(--color-text-muted);
+}
+
+.point-item__val {
+  font-weight: 700;
+}
+
+.point-item__val.plus {
+  color: var(--color-success);
+}
+
+.point-item__val.minus {
+  color: var(--color-error);
+}
+
+/* ══════════════════════════════════════
+   ⚙️ 설정 탭
+══════════════════════════════════════ */
+.settings-form {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  max-width: 480px;
+}
+
+.settings-form h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* 갱신 시간 표시 */
+.ranking-header__updated {
+  font-size: .75rem;
+  color: var(--color-text-muted);
+  margin: 6px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ranking-update-badge {
+  font-size: .68rem;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════
+   🎨 스킨 탭
+══════════════════════════════════════ */
+.skin-section {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.skin-section__title {
+  font-size: .8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin: 0 0 var(--spacing-md);
+}
+
+.skin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.skin-card {
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border);
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.skin-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.skin-card--active {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.skin-card--locked {
+  opacity: .7;
+}
+
+/* 미리보기 색상 바 */
+.skin-card__preview {
+  height: 60px;
+  width: 100%;
+}
+
+.skin-card__info {
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.skin-card__name {
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.skin-card__desc {
+  font-size: .75rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.skin-card__action {
+  padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.skin-active-badge {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* MyPage.css 추가 */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: .75rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-size: .9rem;
+  font-weight: 600;
+  z-index: 9999;
+  box-shadow: var(--shadow-md);
+  animation: slideUp .3s ease;
+}
+
+.toast--success {
+  background: var(--color-success);
+  color: #fff;
+}
+
+.toast--error {
+  background: var(--color-error);
+  color: #fff;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ══════════════════════════════════════
+   📆 출석 스트릭 섹션
+══════════════════════════════════════ */
+.streak-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* 요약 카드 3개 */
+.streak-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+}
+
+@media (max-width: 480px) {
+  .streak-summary {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+  }
+}
+
+.streak-summary__card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg) var(--spacing-md);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: transform var(--transition-fast);
+}
+
+.streak-summary__card:hover {
+  transform: translateY(-2px);
+}
+
+/* 현재 최장 기록 카드 강조 */
+.streak-summary__card--highlight {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
+}
+
+.streak-summary__icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.streak-summary__val {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.1;
+}
+
+.streak-summary__label {
+  font-size: .72rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+
+.streak-summary__sub {
+  font-size: .7rem;
+  color: var(--color-text-muted);
+}
+
+/* 동기부여 메시지 */
+.streak-motivation {
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-align: center;
+}
+
+/* 캘린더 래퍼 */
+.streak-calendar-wrap {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.streak-calendar-wrap__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.streak-calendar-wrap__header h4 {
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.streak-total-badge {
+  font-size: .72rem;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+}

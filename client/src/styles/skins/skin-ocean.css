@@ -1,0 +1,35 @@
+/* ═══════════════════════════════════════════════════════
+   src/styles/skins/skin-ocean.css
+   ── 오션 스킨: 청록색 / 네이비 사이드바
+   ═══════════════════════════════════════════════════════ */
+
+[data-skin="ocean"] {
+  --font-body:    'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
+  --font-heading: 'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
+  --font-mono:    monospace;
+
+  --color-primary:    #0ea5e9;   /* Sky-500 */
+  --color-on-primary: #ffffff;
+  --color-secondary:  #06b6d4;   /* Cyan-500 */
+
+  --color-bg:      #f0f9ff;      /* Sky-50 */
+  --color-surface: #ffffff;
+  --color-border:  #bae6fd;      /* Sky-200 */
+
+  --color-text:       #0c4a6e;   /* Sky-900 */
+  --color-text-muted: #0369a1;   /* Sky-700 */
+
+  /* 네이비 사이드바 */
+  --color-nav-bg:   #0c4a6e;
+  --color-nav-text: #bae6fd;
+
+  --color-success:    #059669;
+  --color-success-bg: #d1fae5;
+  --color-error:      #e11d48;
+  --color-error-bg:   #ffe4e6;
+  --color-warning:    #d97706;
+  --color-warning-bg: #fef3c7;
+
+  --shadow-sm:  0 1px 3px rgba(14,165,233,.08);
+  --shadow-md:  0 4px 16px rgba(14,165,233,.14), 0 2px 6px rgba(0,0,0,.05);
+}

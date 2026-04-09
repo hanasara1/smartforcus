@@ -1,0 +1,39 @@
+/* ═══════════════════════════════════════════════════════
+   skin-bg-nature.css ── 자연 배경 테마
+   ═══════════════════════════════════════════════════════ */
+[data-skin="bg-nature"] {
+  --color-primary:    #059669;
+  --color-on-primary: #ffffff;
+  --color-secondary:  #0d9488;
+
+  --color-bg:      #ecfdf5;
+  --color-surface: rgba(255,255,255,.92);
+  --color-border:  #a7f3d0;
+
+  --color-text:       #064e3b;
+  --color-text-muted: #065f46;
+
+  --color-nav-bg:   #064e3b;
+  --color-nav-text: #a7f3d0;
+
+  --color-success:    #059669;
+  --color-success-bg: #d1fae5;
+  --color-error:      #e11d48;
+  --color-error-bg:   #ffe4e6;
+  --color-warning:    #d97706;
+  --color-warning-bg: #fef3c7;
+
+  --shadow-sm: 0 1px 3px rgba(5,150,105,.08);
+  --shadow-md: 0 4px 16px rgba(5,150,105,.14);
+}
+
+[data-skin="bg-nature"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 0% 100%, rgba(5,150,105,.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 0%, rgba(13,148,136,.15) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}

@@ -1,0 +1,28 @@
+/* ═══════════════════════════════════════════════════════
+   src/styles/base/reset.css
+   브라우저 기본 스타일 초기화
+   ═══════════════════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: var(--line-height-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, video { max-width: 100%; display: block; }
+
+button { cursor: pointer; font-family: inherit; }
+
+a { color: inherit; }
+
+ul, ol { list-style: none; }

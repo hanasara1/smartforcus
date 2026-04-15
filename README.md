@@ -1,4 +1,12 @@
-# 고민중독 (GominDokki) 🧠
+# Smart Forcus
+
+---
+
+> 사용법 
+> server> nodemon app.js
+> client> npm start
+
+
 
 > **MediaPipe 기반 실시간 자세 분석 & 집중 케어 플랫폼**
 

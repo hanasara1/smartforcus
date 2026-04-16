@@ -1,356 +1,541 @@
+/* client/src/pages/Camera/CameraPage.css */
+
+
 /* ═══════════════════════════════════════════════════════
-   CameraPage.css
-   ═══════════════════════════════════════════════════════ */
+   📷 CameraPage — 집중 세션 메인 페이지 레이아웃
+   카메라 뷰, 상태 바, 우측 패널, 오버레이 요소들의
+   스타일을 정의합니다.
+═══════════════════════════════════════════════════════ */
 
-/* ── 페이지 전체 래퍼 */
+
+/* ── 페이지 전체 래퍼 ── */
+/*
+  height: calc(100vh - 60px) :
+    layout-header(60px)를 제외한 나머지 뷰포트 높이를 모두 사용합니다.
+    → 페이지 전체가 스크롤 없이 화면에 꽉 찬 상태로 표시됩니다.
+
+  overflow: hidden :
+    내부 요소들이 페이지 바깥으로 넘치지 않도록 합니다.
+    스크롤이 필요한 경우 각 자식 요소(camera-panel 등)에서 개별 처리합니다.
+
+  box-sizing: border-box :
+    padding이 포함된 전체 크기를 지정된 height로 계산합니다.
+*/
 .camera-page {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  height: calc(100vh - 60px); /* layout-header 60px 제외 */
-  padding: var(--spacing-md);
-  overflow: hidden;
-  box-sizing: border-box;
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-md);
+  height         : calc(100vh - 60px); /* layout-header 60px 제외한 높이 */
+  padding        : var(--spacing-md);
+  overflow       : hidden;
+  box-sizing     : border-box;
 }
 
-/* ── 상태 바 */
+
+/* ════════════════════════════════════════
+   📊 상단 상태 바
+   현재 세션 상태 뱃지와 소음 경고를 표시합니다.
+════════════════════════════════════════ */
+
+/*
+  flex-shrink: 0 : 페이지 높이가 줄어들어도 상태 바 높이는 고정됩니다.
+  height: 36px   : 내부 chip 높이와 일치시켜 레이아웃을 안정적으로 유지합니다.
+*/
 .camera-status-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  flex-shrink: 0;
-  height: 36px;
+  display     : flex;
+  align-items : center;
+  gap         : var(--spacing-sm);
+  flex-shrink : 0;    /* 높이 고정 (줄어들지 않음) */
+  height      : 36px;
 }
 
+
+/* ── 상태 뱃지(chip) 공통 스타일 ── */
+/*
+  border-radius: var(--radius-full) : 완전히 둥근 pill 형태의 뱃지를 만듭니다.
+  inline-flex : 뱃지 내부 아이콘과 텍스트를 가로로 나란히 정렬합니다.
+*/
 .status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
+  display     : inline-flex;
+  align-items : center;
+  gap         : 6px;
+  padding     : 4px 12px;
   border-radius: var(--radius-full);
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size   : 0.82rem;
+  font-weight : 600;
 }
 
+/* 대기 중 : 회색 계열 (비활성 상태 표현) */
 .status-chip--idle {
-  background: rgba(100, 116, 139, 0.15);
-  color: var(--color-text-muted);
-  border: 1px solid var(--color-border);
+  background : rgba(100, 116, 139, 0.15);
+  color      : var(--color-text-muted);
+  border     : 1px solid var(--color-border);
 }
 
+/* 집중 중 : 초록 계열 (활성 상태 강조) */
 .status-chip--running {
-  background: rgba(22, 163, 74, 0.12);
-  color: var(--color-success);
-  border: 1px solid var(--color-success);
+  background : rgba(22, 163, 74, 0.12);
+  color      : var(--color-success);
+  border     : 1px solid var(--color-success);
 }
 
+/* 일시정지 / 소음 경고 : 노랑 계열 (주의 상태 표현) */
 .status-chip--paused {
-  background: rgba(245, 158, 11, 0.15);
-  color: var(--color-warning);
-  border: 1px solid var(--color-warning);
+  background : rgba(245, 158, 11, 0.15);
+  color      : var(--color-warning);
+  border     : 1px solid var(--color-warning);
 }
 
-/* 깜빡이는 점 (집중 중 표시) */
+/* 캘리브레이션 중 : 황금색 계열 (진행 중 상태 표현) */
+.status-chip--calibrating {
+  background : rgba(234, 179, 8, 0.15);
+  color      : #a16207;
+  border     : 1px solid #a16207;
+}
+
+
+/* ── 깜빡이는 점 : 집중 중 상태를 시각적으로 강조 ── */
+/*
+  blink 애니메이션 : 1.2초 주기로 opacity를 1 → 0.2 → 1로 반복하여
+                     마치 LED가 깜빡이는 것처럼 '집중 중' 임을 알립니다.
+  flex-shrink: 0   : 부모 요소가 좁아져도 점의 크기가 줄어들지 않습니다.
+*/
 .status-chip__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-success);
-  animation: blink 1.2s ease-in-out infinite;
-  flex-shrink: 0;
+  width         : 8px;
+  height        : 8px;
+  border-radius : 50%;                                  /* 완전한 원형 */
+  background    : var(--color-success);
+  animation     : blink 1.2s ease-in-out infinite;      /* 무한 반복 깜빡임 */
+  flex-shrink   : 0;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.2; }
+  0%, 100% { opacity: 1;   } /* 불투명 */
+  50%      { opacity: 0.2; } /* 거의 투명 */
 }
 
-/* ── 메인 그리드 (카메라 + 우측 패널) */
+
+/* ════════════════════════════════════════
+   🗂️ 메인 그리드 : 카메라 뷰(좌) + 패널(우)
+════════════════════════════════════════ */
+
+/*
+  grid-template-columns: 1fr 300px :
+    왼쪽 카메라 뷰는 남은 공간을 모두 차지하고,
+    오른쪽 패널은 고정 너비 300px로 표시됩니다.
+
+  align-items: start :
+    카메라 뷰가 우측 패널 콘텐츠 높이만큼만 늘어나도록 합니다.
+    (우측 패널이 카메라보다 짧아도 카메라가 불필요하게 늘어나지 않습니다.)
+
+  min-height: 0 :
+    flex 자식 요소가 부모를 벗어나지 않도록 높이를 0 기준으로 계산합니다.
+    (flex 컨테이너에서 overflow를 정상 동작시키기 위한 필수 설정)
+*/
 .camera-grid {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  grid-template-rows: auto; /* ✅ 행 높이를 콘텐츠(우측 패널)에 맞춤 */
-  gap: var(--spacing-md);
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  align-items: start; /* ✅ 카메라가 우측 패널 높이만큼만 늘어남 */
+  display               : grid;
+  grid-template-columns : 1fr 300px;  /* 카메라 : 패널 = 가변 : 고정 */
+  grid-template-rows    : auto;       /* 행 높이를 우측 패널 콘텐츠에 맞춤 */
+  gap                   : var(--spacing-md);
+  flex                  : 1;
+  min-height            : 0;
+  overflow              : hidden;
+  align-items           : start;      /* 카메라가 패널 높이만큼만 늘어남 */
 }
 
-/* ── 카메라 뷰 (왼쪽) */
+
+/* ════════════════════════════════════════
+   📹 카메라 뷰 (좌측)
+════════════════════════════════════════ */
+
+/*
+  position: relative : 내부 오버레이 요소(배너, 소음 미터 등)의
+                       position: absolute 기준점이 됩니다.
+  align-self: stretch : 그리드 행 전체 높이를 채웁니다.
+  height: 100%        : 부모 그리드 셀 높이에 맞춥니다.
+*/
 .camera-view {
-  position: relative;
-  background: #000;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-  height: 100%; /* ✅ 우측 패널 높이에 맞게 꽉 채움 */
-  align-self: stretch; /* ✅ grid 행 높이 전체를 차지 */
+  position      : relative;
+  background    : #000;
+  border-radius : var(--radius-lg);
+  overflow      : hidden;             /* 내부 요소가 둥근 모서리 밖으로 넘치지 않음 */
+  box-shadow    : var(--shadow-md);
+  height        : 100%;
+  align-self    : stretch;            /* 그리드 행 높이 전체를 차지 */
 }
 
+/*
+  video, canvas 모두 카메라 뷰 영역을 꽉 채우도록 절대 위치로 겹쳐 배치합니다.
+  object-fit: cover         : 비율을 유지하며 영역을 가득 채웁니다. (잘릴 수 있음)
+  object-position: top      : 얼굴·상반신을 기준으로 상단을 우선 표시합니다.
+*/
 .camera-view video,
 .camera-view canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* ✅ contain → cover 로 다시 변경 */
-  object-position: top; /* ✅ 얼굴/상반신 기준으로 상단 정렬 */
+  position        : absolute;
+  inset           : 0;              /* top/right/bottom/left 모두 0 (= 꽉 채움) */
+  width           : 100%;
+  height          : 100%;
+  object-fit      : cover;          /* 화면을 꽉 채움 (비율 유지, 일부 잘림 가능) */
+  object-position : top;            /* 상반신·얼굴 중심으로 상단 정렬 */
 }
 
+/* canvas : video 위에 z-index로 겹쳐 스켈레톤 오버레이를 표시합니다. */
 .camera-view canvas {
   z-index: 2;
 }
 
-/* ── 자세 배너 (카메라 위 오버레이) */
+
+/* ════════════════════════════════════════
+   💬 자세 배너 (카메라 위 오버레이)
+   감지된 자세 유형을 화면 중앙 하단에 표시합니다.
+════════════════════════════════════════ */
+
+/*
+  left: 50% + transform: translateX(-50%) :
+    요소의 너비와 무관하게 가로 정중앙에 배치하는 관용적 패턴입니다.
+  bottom: 56px :
+    소음 미터 오버레이(높이 약 44px) 위에 여유 공간을 두고 표시합니다.
+  white-space: nowrap :
+    자세 텍스트가 두 줄로 줄바꿈되지 않도록 고정합니다.
+  z-index: 5 :
+    video(기본값)·canvas(z-index:2)보다 위에 표시됩니다.
+*/
 .pose-banner {
-  position: absolute;
-  bottom: 56px; /* noise-meter-overlay 위 */
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 6px 18px;
-  border-radius: var(--radius-full);
-  font-size: 0.88rem;
-  font-weight: 700;
-  white-space: nowrap;
-  z-index: 5;
-  box-shadow: var(--shadow-sm);
+  position      : absolute;
+  bottom        : 56px;               /* 소음 미터 오버레이 위에 표시 */
+  left          : 50%;
+  transform     : translateX(-50%);   /* 가로 정중앙 배치 */
+  padding       : 6px 18px;
+  border-radius : var(--radius-full);
+  font-size     : 0.88rem;
+  font-weight   : 700;
+  white-space   : nowrap;             /* 줄바꿈 방지 */
+  z-index       : 5;
+  box-shadow    : var(--shadow-sm);
 }
 
+/* 바른 자세 : 초록 배경 */
 .pose-banner--good {
-  background: rgba(22, 163, 74, 0.85);
-  color: #fff;
+  background : rgba(22, 163, 74, 0.85);
+  color      : #fff;
 }
 
+/* 나쁜 자세 (일반) : 빨강 배경 */
 .pose-banner--bad {
-  background: rgba(220, 38, 38, 0.88);
-  color: #fff;
+  background : rgba(220, 38, 38, 0.88);
+  color      : #fff;
 }
 
+/* 경고(WARNING) : 빨강 배경 (즉각적인 교정 필요) */
 .pose-banner--WARNING {
-  background: rgba(220, 38, 38, 0.88);
-  color: #fff;
+  background : rgba(220, 38, 38, 0.88);
+  color      : #fff;
 }
 
+/* 주의(CAUTION) : 주황 배경 (개선 권고 수준) */
 .pose-banner--CAUTION {
-  background: rgba(217, 119, 6, 0.88);
-  color: #fff;
+  background : rgba(217, 119, 6, 0.88);
+  color      : #fff;
 }
 
-/* ── 소음 미터 오버레이 (카메라 하단) */
+
+/* ════════════════════════════════════════
+   🔊 소음 미터 오버레이 (카메라 하단)
+   현재 데시벨과 소음 레벨 바를 표시합니다.
+════════════════════════════════════════ */
+
+/*
+  카메라 뷰 하단에 반투명 배경으로 고정 표시합니다.
+  left: 0, right: 0 : 카메라 뷰 전체 너비를 차지합니다.
+*/
 .noise-meter-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 8px 14px;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
+  position   : absolute;
+  bottom     : 0;
+  left       : 0;
+  right      : 0;
+  padding    : 8px 14px;
+  background : rgba(0, 0, 0, 0.45); /* 반투명 검정 배경 */
+  display    : flex;
   align-items: center;
-  gap: 10px;
-  z-index: 5;
+  gap        : 10px;
+  z-index    : 5;
 }
 
+/* dB 수치 텍스트 : 고정 너비로 소음 바와 정렬을 유지합니다. */
 .noise-db {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #fff;
-  width: 46px;
-  flex-shrink: 0;
+  font-size   : 0.8rem;
+  font-weight : 700;
+  color       : #fff;
+  width       : 46px;       /* 최대 '100dB' 너비를 수용할 고정 너비 */
+  flex-shrink : 0;
 }
 
+/* 소음 레벨 바 트랙 : 반투명 흰색 배경으로 빈 구간을 표현합니다. */
 .noise-bar {
-  flex: 1;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-full);
-  overflow: hidden;
+  flex          : 1;        /* 남은 가로 공간을 모두 차지 */
+  height        : 6px;
+  background    : rgba(255, 255, 255, 0.2);
+  border-radius : var(--radius-full);
+  overflow      : hidden;   /* 채움 바가 트랙 밖으로 넘치지 않도록 */
 }
 
+/*
+  소음 레벨 바 채움 :
+  width는 JSX에서 인라인 스타일로 noisePct(%)에 따라 동적으로 변경됩니다.
+  background도 noiseColor에 따라 초록·노랑·빨강으로 동적으로 변경됩니다.
+  transition : 너비가 부드럽게 변화하여 실시간 소음 변화를 자연스럽게 표현합니다.
+*/
 .noise-fill {
-  height: 100%;
-  border-radius: var(--radius-full);
-  transition: width 0.3s ease;
+  height        : 100%;
+  border-radius : var(--radius-full);
+  transition    : width 0.3s ease; /* 소음 변화 시 부드러운 채움 애니메이션 */
 }
 
-/* ── 일시정지 오버레이 */
+
+/* ════════════════════════════════════════
+   ⏸ 일시정지 오버레이
+   세션 일시정지 중 카메라 뷰 전체를 덮는 반투명 레이어입니다.
+════════════════════════════════════════ */
+
+/*
+  inset: 0 : 부모(camera-view) 영역 전체를 완전히 덮습니다.
+  z-index: 10 : 모든 오버레이 요소 중 최상단에 표시됩니다.
+*/
 .pause-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  display: flex;
-  align-items: center;
+  position      : absolute;
+  inset         : 0;
+  background    : rgba(0, 0, 0, 0.55); /* 반투명 어두운 배경 */
+  display       : flex;
+  align-items   : center;
   justify-content: center;
-  border-radius: var(--radius-lg);
-  z-index: 10;
+  border-radius : var(--radius-lg);
+  z-index       : 10;                  /* 최상단 레이어 */
 }
 
+/* 오버레이 중앙 콘텐츠 : 아이콘 + 텍스트 */
 .pause-overlay__content {
-  text-align: center;
-  color: #fff;
+  text-align : center;
+  color      : #fff;
 }
 
 .pause-overlay__icon {
-  font-size: 3rem;
-  display: block;
-  margin-bottom: 8px;
+  font-size     : 3rem;
+  display       : block;
+  margin-bottom : 8px;
 }
 
 .pause-overlay__content p {
-  margin: 4px 0;
-  font-size: 1rem;
-  font-weight: 600;
+  margin      : 4px 0;
+  font-size   : 1rem;
+  font-weight : 600;
 }
 
-/* ── 우측 패널 */
+
+/* ════════════════════════════════════════
+   📋 우측 정보 패널
+   타이머, 점수, 자세 로그, 컨트롤 버튼을 세로로 배치합니다.
+════════════════════════════════════════ */
+
+/*
+  overflow-y: auto : 패널 내용이 많아지면 패널 내부에서만 스크롤됩니다.
+  min-height: 0    : flex 자식 요소가 부모를 벗어나지 않도록 합니다.
+                     (flex 컨테이너에서 overflow를 정상 동작시키기 위한 필수 설정)
+*/
 .camera-panel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  overflow-y: auto;
-  min-height: 0;   /* flex 자식이 넘치지 않도록 */
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-sm);
+  overflow-y     : auto;  /* 내부 스크롤 허용 */
+  min-height     : 0;     /* flex 자식 높이 초과 방지 */
 }
 
-/* 패널 카드 공통 */
+
+/* ── 패널 카드 공통 스타일 ── */
+/*
+  flex-shrink: 0 : 패널 높이가 부족해도 카드가 찌그러지지 않습니다.
+                   스크롤로 대신 처리합니다.
+*/
 .panel-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
-  box-shadow: var(--shadow-sm);
-  flex-shrink: 0;
+  background    : var(--color-surface);
+  border        : 1px solid var(--color-border);
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-md);
+  box-shadow    : var(--shadow-sm);
+  flex-shrink   : 0;
 }
 
+/* 카드 소제목 : 작고 흐릿하게 표시하여 내용에 집중하도록 합니다. */
 .panel-card h3 {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--color-text-muted);
-  margin-bottom: var(--spacing-sm);
-  letter-spacing: 0.3px;
+  font-size      : 0.85rem;
+  font-weight    : 700;
+  color          : var(--color-text-muted);
+  margin-bottom  : var(--spacing-sm);
+  letter-spacing : 0.3px;
 }
 
-/* ── 타이머 */
+
+/* ── 경과 시간 타이머 ── */
+/*
+  font-variant-numeric: tabular-nums :
+    모든 숫자를 동일한 너비로 렌더링합니다.
+    → 시간이 변경될 때 숫자 너비 차이로 레이아웃이 흔들리는 것을 방지합니다.
+  letter-spacing: 2px : 시계 스타일의 자간으로 가독성을 높입니다.
+*/
 .session-timer {
-  font-size: 2.2rem;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-text);
-  letter-spacing: 2px;
-  text-align: center;
+  font-size             : 2.2rem;
+  font-weight           : 800;
+  font-variant-numeric  : tabular-nums; /* 고정 너비 숫자 */
+  color                 : var(--color-text);
+  letter-spacing        : 2px;
+  text-align            : center;
 }
 
-/* ── 실시간 점수 링 */
+
+/* ── 실시간 점수 링 ── */
+/* ScoreRing 컴포넌트를 카드 중앙에 배치합니다. */
 .live-score-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: var(--spacing-xs) 0;
+  display         : flex;
+  justify-content : center;
+  align-items     : center;
+  padding         : var(--spacing-xs) 0;
 }
 
-/* ── 자세 로그 */
+
+/* ── 자세 이벤트 로그 목록 ── */
+/*
+  max-height: 160px + overflow-y: auto :
+    로그 항목이 많아져도 카드 크기를 유지하고 내부에서만 스크롤됩니다.
+*/
 .pose-log {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  max-height: 160px;
-  overflow-y: auto;
+  display        : flex;
+  flex-direction : column;
+  gap            : 4px;
+  max-height     : 160px;
+  overflow-y     : auto;
 }
 
+/* 로그 항목 : 시각(좌)과 자세 유형(우)을 양 끝 배치 */
 .pose-log-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
-  font-size: 0.78rem;
+  display         : flex;
+  align-items     : center;
+  justify-content : space-between;
+  padding         : 4px 8px;
+  border-radius   : var(--radius-sm);
+  font-size       : 0.78rem;
 }
 
+/* 경고(WARNING) 항목 : 빨강 계열 배경 */
 .pose-log-item--WARNING {
-  background: var(--color-error-bg);
-  color: var(--color-error);
+  background : var(--color-error-bg);
+  color      : var(--color-error);
 }
 
+/* 주의(CAUTION) 항목 : 노랑 계열 배경 */
 .pose-log-item--CAUTION {
-  background: var(--color-warning-bg);
-  color: var(--color-warning);
+  background : var(--color-warning-bg);
+  color      : var(--color-warning);
 }
 
+/* 양호(GOOD) 항목 : 초록 계열 배경 */
 .pose-log-item--GOOD {
-  background: var(--color-success-bg);
-  color: var(--color-success);
+  background : var(--color-success-bg);
+  color      : var(--color-success);
 }
 
+/* 로그 항목의 시각 텍스트 : 작고 흐릿하게 표시 */
 .pose-log-item__time {
-  font-size: 0.72rem;
-  color: var(--color-text-muted);
-  flex-shrink: 0;
-  margin-right: 6px;
+  font-size    : 0.72rem;
+  color        : var(--color-text-muted);
+  flex-shrink  : 0;          /* 시각 텍스트가 잘리지 않도록 고정 */
+  margin-right : 6px;
 }
 
-/* ── 컨트롤 버튼 영역 */
+
+/* ════════════════════════════════════════
+   🎮 세션 제어 버튼 영역
+════════════════════════════════════════ */
+
+/*
+  flex-direction: column : 버튼들을 세로로 나란히 배치합니다.
+  flex-shrink: 0         : 패널이 좁아져도 버튼 영역이 줄어들지 않습니다.
+*/
 .camera-controls {
-  display: flex;
-  flex-direction: column;  /* 버튼 세로 배치 */
-  gap: var(--spacing-sm);
-  flex-shrink: 0;
+  display        : flex;
+  flex-direction : column; /* 버튼 세로 배치 */
+  gap            : var(--spacing-sm);
+  flex-shrink    : 0;
 }
 
-/* ── 버튼 변형 */
+
+/* ── 경고(warning) 버튼 변형 ── */
+/* 일시정지 버튼에 사용되는 노랑 계열 버튼 스타일입니다. */
 .btn--warning {
-  background: var(--color-warning, #f59e0b);
-  color: #fff;
-  border: none;
+  background : var(--color-warning, #f59e0b); /* 변수 없으면 기본값 #f59e0b 사용 */
+  color      : #fff;
+  border     : none;
 }
 
 .btn--warning:hover {
-  opacity: 0.85;
+  opacity: 0.85; /* 호버 시 약간 투명하게 */
 }
 
-/* ── 자세 등록 가이드 텍스트 */
+
+/* ════════════════════════════════════════
+   📐 자세 등록(캘리브레이션) 가이드 텍스트
+════════════════════════════════════════ */
+
+/*
+  캘리브레이션 진행 중 자세 인식 상태를 사용자에게 안내하는 텍스트 박스입니다.
+  인식 전(노란색 안내)과 인식 후(초록색 확인)는 JSX에서 텍스트로 구분합니다.
+*/
 .calibration-guide-text {
-    text-align: center;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--color-text);
-    padding: var(--spacing-sm);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    line-height: 1.5;
+  text-align    : center;
+  font-size     : 0.88rem;
+  font-weight   : 600;
+  color         : var(--color-text);
+  padding       : var(--spacing-sm);
+  background    : var(--color-surface);
+  border        : 1px solid var(--color-border);
+  border-radius : var(--radius-md);
+  line-height   : 1.5;
 }
 
-/* ── 자세 등록 중 상태 칩 */
-.status-chip--calibrating {
-    background: rgba(234, 179, 8, 0.15);
-    color: #a16207;
-    border: 1px solid #a16207;
-}
 
-/* ── 타임랩스 섹션 */
+/* ════════════════════════════════════════
+   🎞️ 타임랩스 섹션 (리포트 페이지 재사용)
+   세션 종료 후 하이라이트 영상을 표시하는 영역입니다.
+════════════════════════════════════════ */
+
 .timelapse-section {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
+  background    : var(--color-surface);
+  border        : 1px solid var(--color-border);
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-lg);
+  box-shadow    : var(--shadow-sm);
 }
 
 .timelapse-section h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: var(--spacing-md);
-    color: var(--color-text);
+  font-size     : 1rem;
+  font-weight   : 700;
+  margin-bottom : var(--spacing-md);
+  color         : var(--color-text);
 }
 
+/*
+  auto-fill + minmax(280px, 1fr) :
+    컨테이너 너비에 따라 열 수가 자동으로 조정됩니다.
+    각 열은 최소 280px, 최대 1fr(가용 공간)을 차지합니다.
+*/
 .timelapse-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: var(--spacing-md);
+  display               : grid;
+  grid-template-columns : repeat(auto-fill, minmax(280px, 1fr));
+  gap                   : var(--spacing-md);
 }
 
+/* 영상 플레이어 : 컨테이너 너비에 맞게 반응형으로 표시 */
 .timelapse-player video {
-    width: 100%;
-    border-radius: var(--radius-md);
-    background: #000;
-    box-shadow: var(--shadow-sm);
+  width         : 100%;
+  border-radius : var(--radius-md);
+  background    : #000;
+  box-shadow    : var(--shadow-sm);
 }

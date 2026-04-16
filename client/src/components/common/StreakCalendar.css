@@ -1,117 +1,211 @@
+/* client/src/components/common/StreakCalendar.css */
+
+
 /* ══════════════════════════════════════
-   StreakCalendar — GitHub 잔디 스타일
+   🌿 StreakCalendar — GitHub 잔디 스타일
+   출석 캘린더 전체 레이아웃과 셀 스타일을 정의합니다.
 ══════════════════════════════════════ */
 
+
+/* ── 캘린더 최상위 컨테이너 ── */
+/*
+  전체 캘린더(월 라벨 + 본체 + 범례)를 세로로 쌓아 배치합니다.
+  overflow-x: auto : 주(weeks) 수가 많아 가로로 넘칠 경우 스크롤을 허용합니다.
+  padding-bottom   : 스크롤바가 생겼을 때 콘텐츠가 가려지지 않도록 여백을 확보합니다.
+*/
 .streak-calendar {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    overflow-x: auto;
-    padding-bottom: 4px;
+    display        : flex;
+    flex-direction : column; /* 월 라벨 → 본체 → 범례 순으로 세로 배치 */
+    gap            : 4px;    /* 각 행 사이 간격 */
+    overflow-x     : auto;   /* 가로 넘침 시 스크롤 허용 */
+    padding-bottom : 4px;    /* 하단 스크롤바와의 여백 */
 }
 
-/* 월 라벨 행 */
+
+/* ════════════════════════════════════════
+   📅 월 라벨 행
+   그리드 상단에 'N월' 텍스트를 열(주) 단위로 표시합니다.
+════════════════════════════════════════ */
+
+/*
+  display: grid    : 주(week) 수만큼 열을 생성합니다. (gridTemplateColumns는 JSX에서 인라인으로 지정)
+  padding-left: 28px : 왼쪽 요일 라벨 열(width: 20px + gap: 4px + 여유분)만큼 오프셋을 주어
+                       월 라벨이 잔디 그리드의 열과 정확히 수직 정렬되도록 맞춥니다.
+*/
 .streak-calendar__months {
-    display: grid;
-    gap: 3px;
-    padding-left: 28px;
-    /* 요일 라벨 너비만큼 오프셋 */
+    display      : grid;
+    gap          : 3px;
+    padding-left : 28px; /* 좌측 요일 라벨 너비만큼 들여쓰기 */
 }
 
+/* 'N월' 텍스트 스타일 */
+/*
+  white-space: nowrap : '10월' 같은 텍스트가 줄바꿈 없이 한 줄로 표시되도록 합니다.
+*/
 .streak-calendar__month-label {
-    font-size: .65rem;
-    color: var(--color-text-muted);
-    font-weight: 600;
-    white-space: nowrap;
+    font-size   : .65rem;                  /* 작고 보조적인 크기 */
+    color       : var(--color-text-muted); /* 흐린 색상으로 보조 정보임을 표현 */
+    font-weight : 600;                     /* 가독성을 위해 약간 굵게 */
+    white-space : nowrap;                  /* 줄바꿈 방지 */
 }
 
-/* 본체: 요일 라벨 + 그리드 가로 배치 */
+
+/* ════════════════════════════════════════
+   🗓️ 캘린더 본체 : 요일 라벨 + 잔디 그리드
+════════════════════════════════════════ */
+
+/*
+  요일 라벨 열과 잔디 그리드를 가로로 나란히 배치합니다.
+  align-items: flex-start : 두 영역의 높이가 달라도 상단을 기준으로 정렬합니다.
+*/
 .streak-calendar__body {
-    display: flex;
-    gap: 4px;
-    align-items: flex-start;
+    display     : flex;
+    gap         : 4px;             /* 요일 라벨과 그리드 사이 간격 */
+    align-items : flex-start;      /* 상단 기준 정렬 */
 }
 
-/* 요일 라벨 열 (7개 행) */
+
+/* ── 요일 라벨 열 : 일~토 7개 행 ── */
+/*
+  grid-template-rows: repeat(7, 13px) : 잔디 셀(13px)과 동일한 높이로 7개 행을 생성합니다.
+                                        → 셀과 요일 라벨이 세로로 정확히 맞아떨어집니다.
+  flex-shrink: 0 : 부모 flex 컨테이너가 좁아져도 요일 라벨 열은 줄어들지 않습니다.
+*/
 .streak-calendar__day-labels {
-    display: grid;
-    grid-template-rows: repeat(7, 13px);
-    gap: 3px;
-    flex-shrink: 0;
+    display              : grid;
+    grid-template-rows   : repeat(7, 13px); /* 셀 높이(13px)와 동일하게 7행 생성 */
+    gap                  : 3px;             /* 셀 간격과 동일 */
+    flex-shrink          : 0;               /* 너비 고정 (줄어들지 않음) */
 }
 
+/* 요일 텍스트 단일 셀 스타일 */
+/*
+  display: flex + align-items: center : 텍스트를 셀 높이 내에서 세로 중앙 정렬합니다.
+  width: 20px : 잔디 그리드와의 가로 정렬 기준이 되는 고정 너비입니다.
+*/
 .streak-calendar__day-label {
-    font-size: .6rem;
-    color: var(--color-text-muted);
-    display: flex;
-    align-items: center;
-    width: 20px;
-    line-height: 1;
+    font-size   : .6rem;                   /* 월 라벨보다 더 작은 보조 텍스트 */
+    color       : var(--color-text-muted); /* 흐린 색상 */
+    display     : flex;
+    align-items : center;                  /* 셀 높이 내 세로 중앙 정렬 */
+    width       : 20px;                    /* 고정 너비 (그리드 오프셋 기준) */
+    line-height : 1;                       /* 줄 간격 최소화 */
 }
 
-/* 잔디 그리드 */
+
+/* ════════════════════════════════════════
+   🟩 잔디 그리드 컨테이너
+════════════════════════════════════════ */
+
+/*
+  grid-template-rows: repeat(7, 13px) : 요일(7개) 기준으로 행을 먼저 채웁니다.
+  grid-auto-flow: column              : 행을 다 채우면 자동으로 다음 열로 넘어갑니다.
+                                        → 일~토(7행)를 채우고 다음 주(열)로 이동하는
+                                          GitHub 잔디 그래프와 동일한 흐름을 만듭니다.
+  flex: 1 : 가로 공간을 최대한 차지하여 그리드가 늘어납니다.
+*/
 .streak-calendar__grid {
-    display: grid;
-    grid-template-rows: repeat(7, 13px);
-    grid-auto-flow: column;
-    gap: 3px;
-    flex: 1;
+    display              : grid;
+    grid-template-rows   : repeat(7, 13px); /* 7행 고정 (일~토) */
+    grid-auto-flow       : column;          /* 열 방향으로 자동 확장 */
+    gap                  : 3px;             /* 셀 사이 간격 */
+    flex                 : 1;              /* 남은 가로 공간 모두 사용 */
 }
 
-/* ── 잔디 셀 */
+
+/* ════════════════════════════════════════
+   🟦 잔디 셀 기본 스타일
+════════════════════════════════════════ */
+
+/*
+  각 날짜 하나를 나타내는 정사각형 셀입니다.
+  border-radius: 3px : 살짝 둥근 모서리로 GitHub 잔디 느낌을 표현합니다.
+  transition         : 배경색 변경과 크기 변환을 부드럽게 애니메이션 처리합니다.
+  cursor: default    : 클릭 가능한 요소가 아님을 명시합니다. (손가락 커서 방지)
+*/
 .streak-cell {
-    width: 13px;
-    height: 13px;
-    border-radius: 3px;
-    background: var(--color-border);
-    transition: transform .15s ease, background .2s ease;
-    cursor: default;
+    width         : 13px;
+    height        : 13px;
+    border-radius : 3px;                          /* 살짝 둥근 모서리 */
+    background    : var(--color-border);          /* 미출석 기본 색상 (회색) */
+    transition    : transform .15s ease,          /* 호버 확대 애니메이션 */
+                    background .2s ease;          /* 배경색 전환 애니메이션 */
+    cursor        : default;                      /* 일반 커서 유지 */
 }
 
+/* 호버 시 셀을 130%로 확대하여 인터랙티브한 느낌을 줍니다. */
 .streak-cell:hover {
     transform: scale(1.3);
 }
 
-/* 출석한 날 */
+
+/* ── 출석한 날 셀 ── */
+/*
+  브랜드 색상(color-primary)으로 배경을 채워 출석 여부를 시각화합니다.
+  opacity: 0.85 : 약간 투명하게 하여 호버 시 선명해지는 효과를 연출합니다.
+*/
 .streak-cell--attended {
-    background: var(--color-primary);
-    opacity: 0.85;
+    background : var(--color-primary);
+    opacity    : 0.85;
 }
 
+/* 출석 셀 호버 : 불투명도를 100%로 높여 강조합니다. */
 .streak-cell--attended:hover {
     opacity: 1;
 }
 
-/* 오늘 */
+
+/* ── 오늘 날짜 셀 ── */
+/*
+  outline          : 셀 테두리 바깥에 선을 그려 오늘임을 표시합니다.
+                     border 대신 outline을 사용하면 레이아웃에 영향을 주지 않습니다.
+  outline-offset: 1px : outline과 셀 사이에 1px 간격을 주어 더 선명하게 보입니다.
+*/
 .streak-cell--today {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 1px;
+    outline        : 2px solid var(--color-primary);
+    outline-offset : 1px;
 }
 
-/* 미래 날짜 */
+
+/* ── 미래 날짜 셀 ── */
+/*
+  아직 오지 않은 날짜는 흐리게 표시하여 비활성 상태임을 나타냅니다.
+*/
 .streak-cell--future {
     opacity: 0.3;
 }
 
-/* 범례 */
+
+/* ════════════════════════════════════════
+   📖 범례 (Legend)
+   캘린더 하단 우측에 색상의 의미를 안내합니다.
+════════════════════════════════════════ */
+
+/*
+  justify-content: flex-end : 범례를 오른쪽 끝으로 정렬합니다.
+  padding-top                : 그리드와의 간격을 확보합니다.
+*/
 .streak-calendar__legend {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    justify-content: flex-end;
-    padding-top: 4px;
+    display         : flex;
+    align-items     : center;
+    gap             : 5px;           /* 범례 아이템 사이 간격 */
+    justify-content : flex-end;      /* 우측 정렬 */
+    padding-top     : 4px;           /* 그리드와의 상단 여백 */
 }
 
+/* 범례용 셀 : 호버 확대 등 인터랙션 없이 색상 표시만 담당 */
 .streak-cell--legend {
-    cursor: default;
-    flex-shrink: 0;
+    cursor      : default; /* 손가락 커서 방지 */
+    flex-shrink : 0;       /* 부모가 좁아져도 크기 유지 */
 }
 
+/* 미출석 샘플 셀 : 기본 테두리 색상(회색)으로 표시 */
 .streak-cell--lv0 {
     background: var(--color-border);
 }
 
+/* 범례 텍스트 ('적음' / '출석') */
 .legend-label {
-    font-size: .65rem;
-    color: var(--color-text-muted);
+    font-size : .65rem;                  /* 작고 보조적인 크기 */
+    color     : var(--color-text-muted); /* 흐린 색상 */
 }

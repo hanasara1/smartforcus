@@ -1,117 +1,235 @@
-/* client/src/pages/Auth/Auth.css - 전면 재작성 */
+/* client/src/pages/Auth/Auth.css */
+
+
+/* ════════════════════════════════════════
+   🔐 Auth — 로그인 · 회원가입 공통 레이아웃
+   LoginPage와 RegisterPage가 함께 사용하는
+   브랜드 패널 + 폼 패널 구조를 정의합니다.
+════════════════════════════════════════ */
+
+
+/* ── 최상위 레이아웃 컨테이너 ── */
+/*
+  display: grid + grid-template-columns: 1fr 1fr
+    : 화면을 좌(브랜드 패널) / 우(폼 패널) 동일 비율로 나눕니다.
+  min-height: 100vh
+    : 콘텐츠가 적어도 화면 전체 높이를 채웁니다. (vh = viewport height)
+*/
 .auth-page {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: var(--color-bg);
+  min-height            : 100vh;
+  display               : grid;
+  grid-template-columns : 1fr 1fr; /* 좌·우 50:50 비율 분할 */
+  background            : var(--color-bg);
 }
 
-/* 왼쪽 브랜드 패널 */
+
+/* ════════════════════════════════════════
+   🧠 왼쪽 브랜드 소개 패널
+════════════════════════════════════════ */
+
+/*
+  linear-gradient(135deg, ...) :
+    브랜드 색상(primary → secondary)을 135도 방향으로 그라디언트 배경을 적용합니다.
+    → 대각선 방향의 그라디언트로 생동감 있는 비주얼을 표현합니다.
+
+  display: flex + flex-direction: column :
+    로고·제목·설명·기능 목록을 세로로 나란히 중앙 배치합니다.
+*/
 .auth-brand {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-2xl);
-  color: #fff;
-  gap: var(--spacing-lg);
+  background     : linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  display        : flex;
+  flex-direction : column;
+  align-items    : center;     /* 가로 중앙 정렬 */
+  justify-content: center;     /* 세로 중앙 정렬 */
+  padding        : var(--spacing-2xl);
+  color          : #fff;
+  gap            : var(--spacing-lg); /* 자식 요소 사이 간격 */
 }
-.auth-brand__logo  { font-size: 5rem; }
+
+/* 브랜드 로고 이모지 : 크게 표시하여 시각적 포인트를 줍니다. */
+.auth-brand__logo {
+  font-size : 5rem;
+}
+
 .auth-brand__title {
-  font-size: 2.25rem;
-  font-weight: 800;
-  color: #fff;
-  margin: 0;
+  font-size   : 2.25rem;
+  font-weight : 800;
+  color       : #fff;
+  margin      : 0;
 }
-.auth-brand__sub   { font-size: 1rem; opacity: .85; text-align: center; line-height: 1.7; margin: 0; }
 
+/*
+  opacity: .85 : 부제목을 살짝 투명하게 하여 제목보다 덜 강조되는 계층감을 만듭니다.
+  line-height: 1.7 : 두 줄로 표시될 때 줄 간격을 넉넉하게 확보합니다.
+*/
+.auth-brand__sub {
+  font-size   : 1rem;
+  opacity     : .85;
+  text-align  : center;
+  line-height : 1.7;
+  margin      : 0;
+}
+
+/* 기능 소개 목록 : bullet 제거 후 flex로 세로 나열 */
 .auth-brand__features {
-  list-style: none;
-  padding: 0;
-  margin: var(--spacing-lg) 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+  list-style     : none; /* 기본 bullet 제거 */
+  padding        : 0;
+  margin         : var(--spacing-lg) 0 0;
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-sm);
 }
+
+/* 개별 기능 항목 : 이모지 아이콘과 텍스트를 가로로 나란히 배치 */
 .auth-brand__features li {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  font-size: .95rem;
-  opacity: .9;
+  display     : flex;
+  align-items : center;
+  gap         : var(--spacing-sm);
+  font-size   : .95rem;
+  opacity     : .9; /* 배경과 대비를 줄여 부드러운 느낌을 표현 */
 }
 
-/* 오른쪽 폼 패널 */
+
+/* ════════════════════════════════════════
+   📋 오른쪽 폼 패널
+════════════════════════════════════════ */
+
+/*
+  display: flex + align-items/justify-content: center :
+    폼 카드를 패널 영역의 가로·세로 정중앙에 배치합니다.
+*/
 .auth-form-panel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-2xl) var(--spacing-xl);
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  padding         : var(--spacing-2xl) var(--spacing-xl);
 }
 
+/* 폼 카드 : 입력 폼을 감싸는 흰색 컨테이너 */
+/*
+  max-width: 400px : 카드 너비를 제한하여 과도하게 넓어지지 않도록 합니다.
+  width: 100%      : max-width 이하 화면에서는 가용 너비를 모두 채웁니다.
+*/
 .auth-card {
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xl);
+  width          : 100%;
+  max-width      : 400px;
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-xl);
 }
 
+
+/* ── 카드 헤더 : 제목 + 안내 문구 ── */
 .auth-card__header h2 {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: var(--color-text);
-  margin: 0 0 var(--spacing-xs);
+  font-size   : 1.75rem;
+  font-weight : 800;
+  color       : var(--color-text);
+  margin      : 0 0 var(--spacing-xs); /* 제목과 안내 문구 사이 간격 */
 }
+
 .auth-card__header p {
-  color: var(--color-text-muted);
-  margin: 0;
-  font-size: .9rem;
+  color     : var(--color-text-muted); /* 보조 텍스트 색상 */
+  margin    : 0;
+  font-size : .9rem;
 }
 
+
+/* ── 폼 내부 레이아웃 ── */
+/*
+  display: flex + flex-direction: column :
+    에러 메시지, 입력 필드, 버튼을 세로로 나란히 배치합니다.
+*/
 .auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-md); /* 각 form-group 사이 간격 */
 }
 
+
+/* ════════════════════════════════════════
+   💬 피드백 메시지 (에러 · 성공)
+════════════════════════════════════════ */
+
+/*
+  에러 메시지 박스
+  border-left : 왼쪽에 굵은 강조선을 그어 에러임을 시각적으로 명확히 표현합니다.
+  background  : 연한 에러 배경색으로 텍스트보다 부드럽게 강조합니다.
+*/
 .auth-error {
-  background: var(--color-error-bg);
-  color: var(--color-error);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-md);
-  font-size: .875rem;
-  margin: 0;
-  border-left: 3px solid var(--color-error);
+  background    : var(--color-error-bg);  /* 연한 빨강 배경 */
+  color         : var(--color-error);     /* 에러 텍스트 색상 */
+  padding       : var(--spacing-sm) var(--spacing-md);
+  border-radius : var(--radius-md);
+  font-size     : .875rem;
+  margin        : 0;
+  border-left   : 3px solid var(--color-error); /* 좌측 강조선 */
 }
 
+/*
+  성공 메시지 박스
+  에러 메시지와 동일한 구조로 색상만 성공(초록) 계열로 변경합니다.
+*/
 .auth-success {
-  background: var(--color-success-bg);
-  color: var(--color-success);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-md);
-  font-size: .875rem;
-  border-left: 3px solid var(--color-success);
+  background    : var(--color-success-bg); /* 연한 초록 배경 */
+  color         : var(--color-success);    /* 성공 텍스트 색상 */
+  padding       : var(--spacing-sm) var(--spacing-md);
+  border-radius : var(--radius-md);
+  font-size     : .875rem;
+  border-left   : 3px solid var(--color-success); /* 좌측 강조선 */
 }
 
+
+/* ════════════════════════════════════════
+   🔗 하단 페이지 이동 링크 영역
+════════════════════════════════════════ */
+
+/*
+  border-top : 폼과 푸터를 시각적으로 분리하는 구분선입니다.
+  padding-top : 구분선과 텍스트 사이 간격을 확보합니다.
+*/
 .auth-footer {
-  text-align: center;
-  font-size: .875rem;
-  color: var(--color-text-muted);
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--spacing-lg);
+  text-align  : center;
+  font-size   : .875rem;
+  color       : var(--color-text-muted);
+  border-top  : 1px solid var(--color-border);
+  padding-top : var(--spacing-lg);
 }
-.auth-footer a {
-  color: var(--color-primary);
-  font-weight: 600;
-  text-decoration: none;
-}
-.auth-footer a:hover { text-decoration: underline; }
 
-/* 반응형 */
+/* 페이지 이동 링크 : 브랜드 색상으로 강조 */
+.auth-footer a {
+  color           : var(--color-primary);
+  font-weight     : 600;
+  text-decoration : none; /* 기본 밑줄 제거 */
+}
+
+/* 호버 시 밑줄을 추가하여 클릭 가능함을 명시합니다. */
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+
+/* ════════════════════════════════════════
+   📱 반응형 (화면 너비 768px 이하)
+════════════════════════════════════════ */
+
+/*
+  모바일 화면에서는 두 패널을 나란히 보여줄 공간이 부족합니다.
+  좌측 브랜드 패널을 숨기고 폼만 전체 화면에 표시합니다.
+*/
 @media (max-width: 768px) {
-  .auth-page { grid-template-columns: 1fr; }
-  .auth-brand { display: none; }
-  .auth-form-panel { padding: var(--spacing-lg); }
+
+  /* 2열 그리드 → 1열로 변경하여 폼이 전체 너비를 차지하게 합니다. */
+  .auth-page {
+    grid-template-columns: 1fr;
+  }
+
+  /* 브랜드 패널은 모바일에서 숨깁니다. (폼에 집중하도록) */
+  .auth-brand {
+    display: none;
+  }
+
+  /* 좁은 화면에서 패딩을 줄여 폼 영역을 최대한 확보합니다. */
+  .auth-form-panel {
+    padding: var(--spacing-lg);
+  }
 }

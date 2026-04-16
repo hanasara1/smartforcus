@@ -1,119 +1,301 @@
 /* client/src/pages/Home/HomePage.css */
+
+
+/* ════════════════════════════════════════
+   🏠 HomePage — 서비스 소개 랜딩 페이지
+   히어로, 기능 카드, CTA 섹션의 레이아웃과
+   스타일을 정의합니다.
+════════════════════════════════════════ */
+
+
+/* ── 페이지 최상위 컨테이너 ── */
+/*
+  max-width: 1080px + margin: 0 auto :
+    넓은 화면에서 콘텐츠가 과도하게 퍼지지 않도록 최대 너비를 제한하고
+    가로 방향으로 가운데 정렬합니다.
+*/
 .home-page {
-  max-width: 1080px;
-  margin: 0 auto;
+  max-width : 1080px;
+  margin    : 0 auto;
 }
 
-/* ── 히어로 */
+
+/* ════════════════════════════════════════
+   🚀 히어로 섹션
+   서비스 핵심 메시지(좌) + 데모 카드(우) 레이아웃
+════════════════════════════════════════ */
+
+/*
+  min-height: 80vh :
+    화면 높이의 80%를 최소 높이로 설정합니다.
+    콘텐츠가 적어도 히어로 섹션이 충분히 큰 비주얼을 차지합니다.
+
+  grid-template-columns: 1fr 1fr :
+    텍스트 콘텐츠(좌)와 데모 카드(우)를 동일 비율로 나란히 배치합니다.
+
+  align-items: center :
+    좌우 두 영역을 세로 방향으로 중앙 정렬합니다.
+*/
 .home-hero {
-  min-height: 80vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: var(--spacing-2xl);
-  padding: var(--spacing-3xl) var(--spacing-xl);
+  min-height            : 80vh;
+  display               : grid;
+  grid-template-columns : 1fr 1fr;
+  align-items           : center;
+  gap                   : var(--spacing-2xl);
+  padding               : var(--spacing-3xl) var(--spacing-xl);
 }
+
+/* 반응형 : 768px 이하에서 1열로 전환하고 데모 카드를 숨깁니다. */
 @media (max-width: 768px) {
-  .home-hero { grid-template-columns: 1fr; min-height: auto; }
-  .home-hero__visual { display: none; }
+  .home-hero {
+    grid-template-columns : 1fr;    /* 2열 → 1열 전환 */
+    min-height            : auto;   /* 높이 제한 해제 */
+  }
+
+  /* 모바일에서 우측 비주얼 카드를 숨겨 콘텐츠에 집중합니다. */
+  .home-hero__visual {
+    display: none;
+  }
 }
 
+
+/* ── 서비스 카테고리 배지 ── */
+/*
+  color-mix(in srgb, var(--color-primary) 12%, transparent) :
+    브랜드 색상을 12% 불투명도로 혼합하여 은은한 배경색을 만듭니다.
+    → 브랜드 색상과 어울리면서 눈에 띄지 않는 라벨 배경을 표현합니다.
+  display: inline-block : 텍스트 너비에 맞게 배지 크기가 자동 조정됩니다.
+*/
 .home-hero__badge {
-  display: inline-block;
-  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-  color: var(--color-primary);
-  padding: 4px 14px;
-  border-radius: var(--radius-full);
-  font-size: .82rem;
-  font-weight: 600;
-  margin-bottom: var(--spacing-md);
+  display       : inline-block;
+  background    : color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color         : var(--color-primary);
+  padding       : 4px 14px;
+  border-radius : var(--radius-full); /* 완전히 둥근 pill 형태 */
+  font-size     : .82rem;
+  font-weight   : 600;
+  margin-bottom : var(--spacing-md);
 }
 
+
+/* ── 메인 헤드라인 ── */
+/*
+  clamp(2rem, 4vw, 3rem) :
+    반응형 폰트 크기를 정의합니다.
+    - 최솟값 2rem   : 아주 좁은 화면에서도 최소 2rem을 유지합니다.
+    - 선호값 4vw    : 뷰포트 너비의 4%에 비례하여 자동 조정됩니다.
+    - 최댓값 3rem   : 넓은 화면에서도 3rem을 초과하지 않습니다.
+    → 별도의 미디어 쿼리 없이 모든 화면 크기에서 자연스러운 크기를 유지합니다.
+
+  font-weight: 900 : 가장 굵은 굵기로 강한 첫인상을 줍니다.
+*/
 .home-hero__title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 900;
-  line-height: 1.2;
-  color: var(--color-text);
-  margin-bottom: var(--spacing-md);
+  font-size     : clamp(2rem, 4vw, 3rem);
+  font-weight   : 900;
+  line-height   : 1.2;
+  color         : var(--color-text);
+  margin-bottom : var(--spacing-md);
 }
-.home-hero__title--accent { color: var(--color-primary); }
 
+/* 브랜드명 강조 : 메인 색상으로 눈에 띄게 표시 */
+.home-hero__title--accent {
+  color: var(--color-primary);
+}
+
+/* 서브 설명 문구 */
 .home-hero__desc {
-  font-size: 1.05rem;
-  color: var(--color-text-muted);
-  line-height: 1.8;
-  margin-bottom: var(--spacing-xl);
+  font-size     : 1.05rem;
+  color         : var(--color-text-muted);
+  line-height   : 1.8;    /* 넉넉한 줄 간격으로 가독성 확보 */
+  margin-bottom : var(--spacing-xl);
 }
 
-.home-hero__cta { display: flex; gap: var(--spacing-md); flex-wrap: wrap; }
+/*
+  CTA 버튼 컨테이너
+  flex-wrap: wrap : 화면이 좁아지면 버튼이 다음 줄로 자동 줄바꿈됩니다.
+*/
+.home-hero__cta {
+  display   : flex;
+  gap       : var(--spacing-md);
+  flex-wrap : wrap;
+}
 
-/* 비주얼 카드 */
-.home-hero__visual { display: flex; justify-content: center; }
+
+/* ════════════════════════════════════════
+   🎴 우측 데모 비주얼 카드
+   서비스 기능을 간략히 미리보기 형태로 표현합니다.
+════════════════════════════════════════ */
+
+/* 카드를 우측 영역 중앙에 배치 */
+.home-hero__visual {
+  display         : flex;
+  justify-content : center;
+}
+
+/*
+  서비스 UI를 미리보기 형태로 보여주는 카드입니다.
+  min-width: 240px : 내용이 적어도 카드가 너무 좁아지지 않도록 최소 너비를 설정합니다.
+*/
 .visual-card {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-2xl);
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--color-border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-lg);
-  min-width: 240px;
+  background     : var(--color-surface);
+  border-radius  : var(--radius-lg);
+  padding        : var(--spacing-2xl);
+  box-shadow     : var(--shadow-lg);    /* 카드에 깊이감을 주는 그림자 */
+  border         : 1px solid var(--color-border);
+  display        : flex;
+  flex-direction : column;
+  align-items    : center;
+  gap            : var(--spacing-lg);
+  min-width      : 240px;
 }
-.visual-score {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.visual-score__num   { font-size: 4rem; font-weight: 900; color: var(--color-primary); line-height: 1; }
-.visual-score__label { font-size: .85rem; color: var(--color-text-muted); }
-.visual-badges       { display: flex; gap: var(--spacing-md); font-size: 1.8rem; }
-.visual-status {
-  padding: 6px 18px;
-  border-radius: var(--radius-full);
-  font-size: .85rem;
-  font-weight: 600;
-}
-.visual-status.good { background: var(--color-success-bg); color: var(--color-success); }
 
-/* ── 기능 섹션 */
+/* 집중 점수 : 숫자와 라벨을 세로 중앙 정렬 */
+.visual-score {
+  display        : flex;
+  flex-direction : column;
+  align-items    : center;
+}
+
+/* 점수 숫자 : 크고 굵게 표시하여 시각적 임팩트를 줍니다. */
+.visual-score__num {
+  font-size   : 4rem;
+  font-weight : 900;
+  color       : var(--color-primary);
+  line-height : 1;
+}
+
+.visual-score__label {
+  font-size : .85rem;
+  color     : var(--color-text-muted);
+}
+
+/* 획득 뱃지 목록 미리보기 */
+.visual-badges {
+  display   : flex;
+  gap       : var(--spacing-md);
+  font-size : 1.8rem; /* 이모지를 크게 표시 */
+}
+
+/* 자세 상태 배지 : pill 형태의 상태 표시 */
+.visual-status {
+  padding       : 6px 18px;
+  border-radius : var(--radius-full);
+  font-size     : .85rem;
+  font-weight   : 600;
+}
+
+/* 바른 자세 상태 : 초록 계열 */
+.visual-status.good {
+  background : var(--color-success-bg);
+  color      : var(--color-success);
+}
+
+
+/* ════════════════════════════════════════
+   📋 주요 기능 소개 섹션
+   4가지 기능을 카드 그리드로 표시합니다.
+════════════════════════════════════════ */
+
 .home-features {
   padding: var(--spacing-3xl) var(--spacing-xl);
 }
+
+/* 섹션 제목 : 가운데 정렬로 섹션의 시작을 명확히 구분 */
 .home-section-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  text-align: center;
-  margin-bottom: var(--spacing-2xl);
+  font-size     : 1.5rem;
+  font-weight   : 800;
+  text-align    : center;
+  margin-bottom : var(--spacing-2xl);
 }
 
+/*
+  기능 카드 그리드
+  repeat(auto-fit, minmax(220px, 1fr)) :
+    컨테이너 너비에 따라 열 수가 자동으로 조정됩니다.
+    각 카드는 최소 220px, 최대 1fr(가용 공간 균등 분배)을 차지합니다.
+    → 화면이 넓으면 4열, 좁으면 2열·1열로 자동 재배치됩니다.
+*/
 .features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--spacing-lg);
+  display               : grid;
+  grid-template-columns : repeat(auto-fit, minmax(220px, 1fr));
+  gap                   : var(--spacing-lg);
 }
-.feature-card {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-xl);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-border);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-.feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-.feature-card__icon  { font-size: 2.25rem; display: block; margin-bottom: var(--spacing-md); }
-.feature-card__title { font-size: 1rem; font-weight: 700; margin-bottom: var(--spacing-sm); }
-.feature-card__desc  { font-size: .875rem; color: var(--color-text-muted); line-height: 1.6; margin: 0; }
 
-/* ── CTA 섹션 */
-.home-cta {
-  text-align: center;
-  padding: var(--spacing-3xl) var(--spacing-xl);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 6%, transparent), color-mix(in srgb, var(--color-secondary) 4%, transparent));
-  border-radius: var(--radius-lg);
-  margin: 0 var(--spacing-xl) var(--spacing-3xl);
-  border: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+/* 기능 카드 */
+/*
+  transition : 호버 시 transform과 shadow가 부드럽게 전환됩니다.
+*/
+.feature-card {
+  background    : var(--color-surface);
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-xl);
+  box-shadow    : var(--shadow-sm);
+  border        : 1px solid var(--color-border);
+  transition    : transform var(--transition-fast),
+                  box-shadow var(--transition-fast);
 }
-.home-cta h2 { font-size: 1.75rem; font-weight: 800; margin-bottom: var(--spacing-sm); }
-.home-cta p  { color: var(--color-text-muted); margin-bottom: var(--spacing-lg); }
+
+/* 호버 시 카드가 위로 살짝 떠오르는 인터랙션 효과 */
+.feature-card:hover {
+  transform  : translateY(-4px);
+  box-shadow : var(--shadow-md); /* 그림자를 강조하여 떠오르는 느낌 강화 */
+}
+
+/* 기능 아이콘 : block으로 단독 줄에 표시 */
+.feature-card__icon {
+  font-size     : 2.25rem;
+  display       : block;
+  margin-bottom : var(--spacing-md);
+}
+
+.feature-card__title {
+  font-size     : 1rem;
+  font-weight   : 700;
+  margin-bottom : var(--spacing-sm);
+}
+
+.feature-card__desc {
+  font-size   : .875rem;
+  color       : var(--color-text-muted);
+  line-height : 1.6;
+  margin      : 0;
+}
+
+
+/* ════════════════════════════════════════
+   🎯 하단 CTA 섹션
+   비로그인 사용자에게 회원가입을 유도하는 배너입니다.
+════════════════════════════════════════ */
+
+/*
+  linear-gradient + color-mix :
+    브랜드 색상(primary·secondary)을 매우 낮은 불투명도로 혼합하여
+    은은한 그라디언트 배경을 만듭니다.
+    → 너무 튀지 않으면서도 페이지 다른 섹션과 구분되는 배경을 표현합니다.
+
+  border: 1px solid color-mix(...) :
+    그라디언트 배경과 어울리는 반투명 브랜드 색상 테두리를 적용합니다.
+*/
+.home-cta {
+  text-align    : center;
+  padding       : var(--spacing-3xl) var(--spacing-xl);
+  background    : linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary)   6%, transparent),  /* 좌상단 : primary 6% */
+    color-mix(in srgb, var(--color-secondary) 4%, transparent)   /* 우하단 : secondary 4% */
+  );
+  border-radius : var(--radius-lg);
+  margin        : 0 var(--spacing-xl) var(--spacing-3xl);
+  border        : 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+
+.home-cta h2 {
+  font-size     : 1.75rem;
+  font-weight   : 800;
+  margin-bottom : var(--spacing-sm);
+}
+
+.home-cta p {
+  color         : var(--color-text-muted);
+  margin-bottom : var(--spacing-lg);
+}

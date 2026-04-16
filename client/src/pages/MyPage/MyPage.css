@@ -1,137 +1,195 @@
 /* client/src/pages/MyPage/MyPage.css */
 
+
+/* ════════════════════════════════════════
+   👤 MyPage — 마이페이지 전체 레이아웃
+   프로필 히어로, 탭 네비, 통계·랭킹·뱃지·
+   스킨·포인트·설정 탭의 스타일을 정의합니다.
+════════════════════════════════════════ */
+
+
+/* ── 페이지 최상위 컨테이너 ── */
+/*
+  max-width: 900px : 넓은 화면에서 콘텐츠가 과도하게 퍼지지 않도록 제한합니다.
+  flex-direction: column : 히어로 → 탭 → 탭 콘텐츠 순으로 세로 배치합니다.
+*/
 .mypage {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xl);
-  max-width: 900px;
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-xl);
+  max-width      : 900px;
 }
 
-/* ══════════════════════════════════════
-   프로필 히어로
-══════════════════════════════════════ */
+
+/* ════════════════════════════════════════
+   👤 프로필 히어로
+   아바타·닉네임·이메일·요약 통계를 표시하는 상단 배너입니다.
+════════════════════════════════════════ */
+
+/*
+  linear-gradient : 브랜드 색상(primary → secondary)의 대각선 그라디언트 배경
+  color: #fff     : 그라디언트 배경 위에 흰색 텍스트로 가독성 확보
+*/
 .mypage-hero {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-xl) var(--spacing-2xl);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xl);
+  background    : linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-xl) var(--spacing-2xl);
+  color         : #fff;
+  display       : flex;
+  align-items   : center;
+  gap           : var(--spacing-xl);
 }
 
+/* 원형 아바타 뱃지 : 닉네임 첫 글자를 크게 표시 */
+/*
+  backdrop-filter: blur(4px) : 반투명 배경에 블러 효과를 추가합니다.
+  border            : 반투명 흰색 테두리로 아바타를 강조합니다.
+  flex-shrink: 0    : 화면이 좁아져도 아바타 크기가 줄어들지 않습니다.
+*/
 .hero-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .2);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.25rem;
-  font-weight: 800;
-  border: 3px solid rgba(255, 255, 255, .5);
-  flex-shrink: 0;
+  width           : 80px;
+  height          : 80px;
+  border-radius   : 50%;
+  background      : rgba(255, 255, 255, .2);
+  backdrop-filter : blur(4px);
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  font-size       : 2.25rem;
+  font-weight     : 800;
+  border          : 3px solid rgba(255, 255, 255, .5);
+  flex-shrink     : 0;
 }
 
+/* 아바타 옆 텍스트 정보 영역 */
 .hero-info {
-  flex: 1;
+  flex: 1; /* 남은 가로 공간 모두 사용 */
 }
 
 .hero-nick {
-  font-size: 1.6rem;
-  font-weight: 800;
-  margin: 0 0 4px;
+  font-size   : 1.6rem;
+  font-weight : 800;
+  margin      : 0 0 4px;
 }
 
+/* 이메일 : 약간 투명하게 하여 닉네임보다 덜 강조 */
 .hero-email {
-  font-size: .88rem;
-  opacity: .75;
-  margin: 0 0 var(--spacing-sm);
+  font-size   : .88rem;
+  opacity     : .75;
+  margin      : 0 0 var(--spacing-sm);
 }
 
+/*
+  요약 통계 4개 (세션·집중분·평균점수·포인트)
+  flex-wrap: wrap : 화면이 좁아지면 자동 줄바꿈됩니다.
+*/
 .hero-stats {
-  display: flex;
-  gap: var(--spacing-lg);
-  flex-wrap: wrap;
+  display   : flex;
+  gap       : var(--spacing-lg);
+  flex-wrap : wrap;
 }
 
+/* 개별 통계 항목 : 숫자(위) + 라벨(아래) 세로 배치 */
 .hero-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display        : flex;
+  flex-direction : column;
+  align-items    : center;
 }
 
 .hero-stat__val {
-  font-size: 1.3rem;
-  font-weight: 800;
+  font-size   : 1.3rem;
+  font-weight : 800;
 }
 
 .hero-stat__label {
-  font-size: .72rem;
-  opacity: .75;
+  font-size : .72rem;
+  opacity   : .75;
 }
 
-/* ══════════════════════════════════════
-   탭 네비게이션
-══════════════════════════════════════ */
+
+/* ════════════════════════════════════════
+   🗂️ 탭 네비게이션
+   탭 버튼을 가로로 나열하고 활성 탭을 강조합니다.
+════════════════════════════════════════ */
+
+/*
+  border-bottom : 전체 탭 영역 하단에 구분선을 그립니다.
+  각 버튼의 border-bottom과 margin-bottom: -2px 조합으로
+  활성 탭의 하단 선이 구분선과 겹쳐 '탭' 느낌을 표현합니다.
+*/
 .mypage-tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 2px solid var(--color-border);
+  display       : flex;
+  gap           : 0;
+  border-bottom : 2px solid var(--color-border);
 }
 
+/* 탭 버튼 기본 스타일 */
+/*
+  border-bottom: 2px solid transparent :
+    비활성 탭도 같은 두께의 투명 테두리를 가져 레이아웃이 흔들리지 않습니다.
+  margin-bottom: -2px :
+    버튼의 하단 선이 탭 컨테이너의 border-bottom과 정확히 겹치도록 합니다.
+*/
 .tab-btn {
-  background: none;
-  border: none;
-  padding: var(--spacing-sm) var(--spacing-lg);
-  font-size: .92rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  transition: color var(--transition-fast), border-color var(--transition-fast);
+  background         : none;
+  border             : none;
+  padding            : var(--spacing-sm) var(--spacing-lg);
+  font-size          : .92rem;
+  font-weight        : 600;
+  color              : var(--color-text-muted);
+  cursor             : pointer;
+  border-bottom      : 2px solid transparent;
+  margin-bottom      : -2px;
+  transition         : color var(--transition-fast),
+                       border-color var(--transition-fast);
 }
 
+/* 활성 탭 : 브랜드 색상으로 강조 */
 .tab-btn.active {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
+  color              : var(--color-primary);
+  border-bottom-color: var(--color-primary); /* 하단 강조선 */
 }
 
+/* 비활성 탭 호버 : 텍스트 색상만 진하게 변경 */
 .tab-btn:hover:not(.active) {
   color: var(--color-text);
 }
 
-/* ══════════════════════════════════════
-   탭 콘텐츠 공통
-══════════════════════════════════════ */
+
+/* ════════════════════════════════════════
+   📄 탭 콘텐츠 공통
+════════════════════════════════════════ */
+
+/* 모든 탭의 내부 요소를 세로로 나열합니다. */
 .tab-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-lg);
 }
 
-/* ══════════════════════════════════════
-   빈 상태
-══════════════════════════════════════ */
+
+/* ════════════════════════════════════════
+   🈳 빈 상태 (Empty State)
+   데이터가 없을 때 안내 메시지를 표시합니다.
+════════════════════════════════════════ */
+
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-3xl) 0;
-  gap: var(--spacing-sm);
-  color: var(--color-text-muted);
-  text-align: center;
+  display         : flex;
+  flex-direction  : column;
+  align-items     : center;
+  justify-content : center;
+  padding         : var(--spacing-3xl) 0;
+  gap             : var(--spacing-sm);
+  color           : var(--color-text-muted);
+  text-align      : center;
 }
 
 .empty-state__icon {
-  font-size: 3rem;
-  margin-bottom: var(--spacing-sm);
+  font-size     : 3rem;
+  margin-bottom : var(--spacing-sm);
 }
 
+/* 소형 empty-state : 카드 내부에 삽입할 때 패딩을 줄입니다. */
 .empty-state--sm {
   padding: var(--spacing-xl) 0;
 }
@@ -140,43 +198,55 @@
   font-size: 2rem;
 }
 
-/* ══════════════════════════════════════
+
+/* ════════════════════════════════════════
    📊 통계 탭
-══════════════════════════════════════ */
+════════════════════════════════════════ */
+
+/*
+  요약 통계 카드 2열 그리드
+  반응형 : 680px 이하에서 1열로 전환합니다.
+*/
 .stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-lg);
+  display               : grid;
+  grid-template-columns : 1fr 1fr;
+  gap                   : var(--spacing-lg);
 }
 
 @media (max-width: 680px) {
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 2열 → 1열 */
   }
 }
 
+/* 통계 카드 공통 스타일 */
 .stat-card {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  box-shadow: var(--shadow-sm);
+  background    : var(--color-surface);
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-lg);
+  box-shadow    : var(--shadow-sm);
 }
 
+/* 카드 소제목 : 작고 흐리게 표시 (보조 정보 강조) */
 .stat-card h4 {
-  font-size: .8rem;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: .5px;
-  margin: 0 0 var(--spacing-xs);
+  font-size      : .8rem;
+  color          : var(--color-text-muted);
+  text-transform : uppercase;   /* 영문 자동 대문자 */
+  letter-spacing : .5px;        /* 자간 확대로 레이블 느낌 */
+  margin         : 0 0 var(--spacing-xs);
 }
 
+/* 통계 수치 : 크고 굵게, 브랜드 색상으로 강조 */
 .stat-card__val {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--color-primary);
+  font-size   : 2rem;
+  font-weight : 800;
+  color       : var(--color-primary);
 }
 
-/* 차트 카드 - 전체 너비 */
+/*
+  차트 카드 : 2열 모두 차지하는 전체 너비 카드
+  반응형 : 680px 이하에서 1열(full-width) 그대로 유지
+*/
 .stat-card--wide {
   grid-column: span 2;
 }
@@ -187,49 +257,55 @@
   }
 }
 
-/* ── 자세 패턴 분석 */
+
+/* ── 자세 패턴 분석 섹션 ── */
 .pose-stats-section {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  box-shadow: var(--shadow-sm);
+  background    : var(--color-surface);
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-lg);
+  box-shadow    : var(--shadow-sm);
 }
 
+/* 섹션 소제목 : 통계 카드 h4와 동일한 스타일 */
 .pose-stats__title {
-  font-size: .8rem;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: .5px;
-  margin: 0 0 var(--spacing-md);
+  font-size      : .8rem;
+  color          : var(--color-text-muted);
+  text-transform : uppercase;
+  letter-spacing : .5px;
+  margin         : 0 0 var(--spacing-md);
 }
 
+/* 자세 항목 목록 : 세로 배치 */
 .pose-stats-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-sm);
 }
 
+/* 개별 자세 항목 : 좌(순위·아이콘·이름) + 우(바·횟수) 양 끝 배치 */
 .pose-stat-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-md);
-  gap: var(--spacing-md);
+  display         : flex;
+  align-items     : center;
+  justify-content : space-between;
+  padding         : var(--spacing-sm) var(--spacing-md);
+  border-radius   : var(--radius-md);
+  gap             : var(--spacing-md);
+  /* background·border-left는 JSX에서 인라인 스타일로 동적 적용 */
 }
 
+/* 좌측 : 순위·아이콘·이름 */
 .pose-stat-item__left {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  min-width: 140px;
+  display     : flex;
+  align-items : center;
+  gap         : var(--spacing-sm);
+  min-width   : 140px; /* 이름 길이에 무관하게 너비를 고정 */
 }
 
 .pose-stat-item__rank {
-  font-size: .75rem;
+  font-size  : .75rem;
   font-weight: 700;
-  color: var(--color-text-muted);
-  min-width: 20px;
+  color      : var(--color-text-muted);
+  min-width  : 20px;
 }
 
 .pose-stat-item__icon {
@@ -237,484 +313,571 @@
 }
 
 .pose-stat-item__label {
-  font-size: .88rem;
-  font-weight: 600;
-  color: var(--color-text);
+  font-size   : .88rem;
+  font-weight : 600;
+  color       : var(--color-text);
 }
 
+/* 우측 : 비율 바 + 감지 횟수 */
 .pose-stat-item__right {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  flex: 1;
+  display     : flex;
+  align-items : center;
+  gap         : var(--spacing-sm);
+  flex        : 1; /* 남은 공간 모두 사용 */
 }
 
+/* 비율 바 트랙 */
 .pose-stat-bar {
-  flex: 1;
-  height: 8px;
-  background: var(--color-border);
-  border-radius: var(--radius-full);
-  overflow: hidden;
+  flex          : 1;
+  height        : 8px;
+  background    : var(--color-border);
+  border-radius : var(--radius-full);
+  overflow      : hidden;
 }
 
+/* 비율 바 채움 : width는 JSX에서 동적 설정, transition으로 부드럽게 표시 */
 .pose-stat-bar__fill {
-  height: 100%;
-  border-radius: var(--radius-full);
-  transition: width .6s ease;
+  height        : 100%;
+  border-radius : var(--radius-full);
+  transition    : width .6s ease;
 }
 
+/* 감지 횟수 텍스트 */
 .pose-stat-item__count {
-  font-size: .8rem;
-  font-weight: 700;
-  color: var(--color-text);
-  min-width: 32px;
-  text-align: right;
+  font-size   : .8rem;
+  font-weight : 700;
+  color       : var(--color-text);
+  min-width   : 32px;
+  text-align  : right;
 }
 
-/* ══════════════════════════════════════
+
+/* ════════════════════════════════════════
    🏆 랭킹 탭
-══════════════════════════════════════ */
+════════════════════════════════════════ */
+
+/* 랭킹 헤더 : 제목·설명·갱신 시각을 가운데 정렬 */
 .ranking-header {
-  text-align: center;
-  padding: var(--spacing-sm) 0;
+  text-align : center;
+  padding    : var(--spacing-sm) 0;
 }
 
 .ranking-header__title {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--color-text);
-  margin: 0 0 4px;
+  font-size   : 1.1rem;
+  font-weight : 800;
+  color       : var(--color-text);
+  margin      : 0 0 4px;
 }
 
 .ranking-header__desc {
-  font-size: .78rem;
-  color: var(--color-text-muted);
-  margin: 0;
+  font-size : .78rem;
+  color     : var(--color-text-muted);
+  margin    : 0;
 }
 
+/* 마지막 갱신 시각 + 자동 갱신 배지 */
+.ranking-header__updated {
+  font-size       : .75rem;
+  color           : var(--color-text-muted);
+  margin          : 6px 0 0;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  gap             : 8px;
+}
+
+/*
+  자동 갱신 배지 : 브랜드 색상의 pill 형태 라벨
+  color-mix : 브랜드 색상을 낮은 불투명도로 혼합하여 은은한 배경·테두리를 만듭니다.
+*/
+.ranking-update-badge {
+  font-size     : .68rem;
+  font-weight   : 600;
+  background    : color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color         : var(--color-primary);
+  padding       : 2px 8px;
+  border-radius : var(--radius-full);
+  border        : 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+/* 랭킹 목록 : 아이템을 세로로 나열 */
 .ranking-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-sm);
 }
 
+/* 랭킹 아이템 공통 스타일 */
+/*
+  border: 2px solid transparent :
+    특별 스타일(top1·top2·top3·me)이 없을 때도 두께를 유지하여 레이아웃이 흔들리지 않습니다.
+*/
 .ranking-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-sm) var(--spacing-lg);
-  background: var(--color-surface);
+  display     : flex;
+  align-items : center;
+  gap         : var(--spacing-md);
+  padding     : var(--spacing-sm) var(--spacing-lg);
+  background  : var(--color-surface);
   border-radius: var(--radius-lg);
-  border: 2px solid transparent;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  border      : 2px solid transparent;
+  box-shadow  : var(--shadow-sm);
+  transition  : transform var(--transition-fast),
+                box-shadow var(--transition-fast);
 }
 
 .ranking-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform  : translateY(-2px);
+  box-shadow : var(--shadow-md);
 }
 
+/* 1위 : 금색 그라디언트 배경 + 테두리 */
 .ranking-item--top1 {
-  background: linear-gradient(135deg, rgba(255, 215, 0, .15), rgba(255, 165, 0, .08));
-  border-color: rgba(255, 215, 0, .5);
+  background   : linear-gradient(135deg, rgba(255, 215, 0, .15), rgba(255, 165, 0, .08));
+  border-color : rgba(255, 215, 0, .5);
 }
 
+/* 2위 : 은색 그라디언트 배경 + 테두리 */
 .ranking-item--top2 {
-  background: linear-gradient(135deg, rgba(192, 192, 192, .15), rgba(169, 169, 169, .08));
-  border-color: rgba(192, 192, 192, .5);
+  background   : linear-gradient(135deg, rgba(192, 192, 192, .15), rgba(169, 169, 169, .08));
+  border-color : rgba(192, 192, 192, .5);
 }
 
+/* 3위 : 동색 그라디언트 배경 + 테두리 */
 .ranking-item--top3 {
-  background: linear-gradient(135deg, rgba(205, 127, 50, .15), rgba(184, 115, 51, .08));
-  border-color: rgba(205, 127, 50, .5);
+  background   : linear-gradient(135deg, rgba(205, 127, 50, .15), rgba(184, 115, 51, .08));
+  border-color : rgba(205, 127, 50, .5);
 }
 
+/*
+  본인 아이템 : 브랜드 색상 테두리 + 반투명 배경 + 글로우 효과
+  color-mix : 브랜드 색상 8%를 surface에 혼합하여 은은한 배경색 생성
+  box-shadow : 0 0 0 3px : 테두리 바깥에 퍼지는 글로우 링 효과
+*/
 .ranking-item--me {
-  border-color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
+  border-color : var(--color-primary);
+  background   : color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+  box-shadow   : 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 
+/* 순위 영역 : 메달 이모지 또는 #번호 */
 .ranking-item__rank {
-  min-width: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-width       : 44px;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
 }
 
 .ranking-medal {
-  font-size: 1.8rem;
-  line-height: 1;
+  font-size   : 1.8rem;
+  line-height : 1;
 }
 
 .ranking-num {
-  font-size: .85rem;
-  font-weight: 700;
-  color: var(--color-text-muted);
+  font-size   : .85rem;
+  font-weight : 700;
+  color       : var(--color-text-muted);
 }
 
+/* 원형 아바타 */
 .ranking-item__avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--color-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--color-text-muted);
-  flex-shrink: 0;
+  width           : 40px;
+  height          : 40px;
+  border-radius   : 50%;
+  background      : var(--color-border);
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  font-size       : 1rem;
+  font-weight     : 800;
+  color           : var(--color-text-muted);
+  flex-shrink     : 0;
 }
 
+/* 본인 아바타 : 브랜드 그라디언트로 강조 */
 .ranking-item__avatar--me {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  color: #fff;
+  background : linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color      : #fff;
 }
 
+/* 닉네임 + breakdown 정보 영역 */
 .ranking-item__info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
+  flex           : 1;
+  display        : flex;
+  flex-direction : column;
+  gap            : 2px;
+  min-width      : 0; /* flex 자식 텍스트 넘침 방지 */
 }
 
+/* 닉네임 + '나' 배지 */
 .ranking-item__nick {
-  font-size: .92rem;
-  font-weight: 700;
-  color: var(--color-text);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-size   : .92rem;
+  font-weight : 700;
+  color       : var(--color-text);
+  display     : flex;
+  align-items : center;
+  gap         : 6px;
 }
 
+/* '나' pill 배지 */
 .ranking-me-badge {
-  font-size: .65rem;
-  font-weight: 700;
-  background: var(--color-primary);
-  color: #fff;
-  padding: 1px 7px;
-  border-radius: var(--radius-full);
+  font-size     : .65rem;
+  font-weight   : 700;
+  background    : var(--color-primary);
+  color         : #fff;
+  padding       : 1px 7px;
+  border-radius : var(--radius-full);
 }
 
-/* ── 점수 breakdown */
+
+/* ── 점수 구성 Breakdown ── */
+/*
+  복합 점수 = 최대 집중 시간 + 총 집중 시간 을
+  시각적으로 수식 형태로 표현합니다.
+  flex-wrap: wrap : 화면이 좁아지면 줄바꿈됩니다.
+*/
 .ranking-item__breakdown {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  flex-wrap: wrap;
+  display     : flex;
+  align-items : center;
+  gap         : 6px;
+  margin-top  : 4px;
+  flex-wrap   : wrap;
 }
 
+/* 개별 breakdown 항목 : 라벨(위) + 수치(아래) 세로 배치 */
 .breakdown-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 3px 8px;
-  border-radius: var(--radius-md);
-  line-height: 1.3;
+  display        : flex;
+  flex-direction : column;
+  align-items    : center;
+  padding        : 3px 8px;
+  border-radius  : var(--radius-md);
+  line-height    : 1.3;
 }
 
+/* 최대 집중 시간 : 파랑 계열 */
 .breakdown-item--max {
-  background: rgba(59, 130, 246, .12);
-  border: 1px solid rgba(59, 130, 246, .3);
+  background : rgba(59, 130, 246, .12);
+  border     : 1px solid rgba(59, 130, 246, .3);
 }
-
 .breakdown-item--max .breakdown-item__val {
   color: #3b82f6;
 }
 
+/* 총 집중 시간 : 초록 계열 */
 .breakdown-item--total {
-  background: rgba(22, 163, 74, .12);
-  border: 1px solid rgba(22, 163, 74, .3);
+  background : rgba(22, 163, 74, .12);
+  border     : 1px solid rgba(22, 163, 74, .3);
 }
-
 .breakdown-item--total .breakdown-item__val {
   color: #16a34a;
 }
 
+/* 복합 점수 : 브랜드 색상(보라) 계열 */
 .breakdown-item--score {
-  background: rgba(99, 102, 241, .12);
-  border: 1px solid rgba(99, 102, 241, .3);
+  background : rgba(99, 102, 241, .12);
+  border     : 1px solid rgba(99, 102, 241, .3);
 }
-
 .breakdown-item--score .breakdown-item__val {
   color: var(--color-primary);
 }
 
+/* Breakdown 라벨 : 작은 대문자 텍스트 */
 .breakdown-item__label {
-  font-size: .62rem;
-  color: var(--color-text-muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .3px;
+  font-size      : .62rem;
+  color          : var(--color-text-muted);
+  font-weight    : 600;
+  text-transform : uppercase;
+  letter-spacing : .3px;
 }
 
+/* Breakdown 수치 */
 .breakdown-item__val {
-  font-size: .82rem;
-  font-weight: 800;
+  font-size   : .82rem;
+  font-weight : 800;
 }
 
+/* '+', '=' 기호 */
 .breakdown-plus {
-  font-size: .85rem;
-  font-weight: 700;
-  color: var(--color-text-muted);
+  font-size   : .85rem;
+  font-weight : 700;
+  color       : var(--color-text-muted);
 }
 
+/* 우측 복합 점수 (큰 숫자) */
 .ranking-item__score {
-  display: flex;
-  align-items: baseline;
-  gap: 2px;
-  flex-shrink: 0;
+  display     : flex;
+  align-items : baseline;
+  gap         : 2px;
+  flex-shrink : 0;
 }
 
 .ranking-item__score-val {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--color-primary);
+  font-size   : 1.3rem;
+  font-weight : 800;
+  color       : var(--color-primary);
 }
 
 .ranking-item__score-label {
-  font-size: .75rem;
-  color: var(--color-text-muted);
+  font-size : .75rem;
+  color     : var(--color-text-muted);
 }
 
+/* Top 10과 내 순위 사이 구분 (···) */
 .ranking-divider {
-  text-align: center;
-  color: var(--color-text-muted);
-  font-size: 1.2rem;
-  letter-spacing: 4px;
-  padding: var(--spacing-xs) 0;
+  text-align     : center;
+  color          : var(--color-text-muted);
+  font-size      : 1.2rem;
+  letter-spacing : 4px;
+  padding        : var(--spacing-xs) 0;
 }
 
+/* 내 순위 카드 : 점선 테두리로 Top 10과 구분 */
 .ranking-item--my-rank {
   border-style: dashed;
 }
 
-/* ══════════════════════════════════════
+
+/* ════════════════════════════════════════
    🏅 뱃지 탭
-══════════════════════════════════════ */
+════════════════════════════════════════ */
+
+/*
+  repeat(auto-fill, minmax(160px, 1fr)) :
+    컨테이너 너비에 따라 열 수가 자동 조정됩니다.
+    각 카드는 최소 160px, 최대 1fr을 차지합니다.
+*/
 .badge-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: var(--spacing-md);
+  display               : grid;
+  grid-template-columns : repeat(auto-fill, minmax(160px, 1fr));
+  gap                   : var(--spacing-md);
 }
 
+/* 뱃지 카드 */
+/*
+  position: relative : 우상단 체크(✅) 배지의 절대 위치 기준점입니다.
+*/
 .badge-card {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-  border: 2px solid var(--color-border);
-  transition: border-color var(--transition-fast), transform var(--transition-fast);
-  position: relative;
+  background    : var(--color-surface);
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-lg);
+  text-align    : center;
+  box-shadow    : var(--shadow-sm);
+  border        : 2px solid var(--color-border);
+  transition    : border-color var(--transition-fast),
+                  transform var(--transition-fast);
+  position      : relative;
 }
 
+/* 보유 중인 뱃지 : 브랜드 색상 테두리로 강조 */
 .badge-card.owned {
   border-color: var(--color-primary);
 }
 
 .badge-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  transform  : translateY(-3px);
+  box-shadow : var(--shadow-md);
 }
 
 .badge-card__name {
-  font-size: .9rem;
-  font-weight: 700;
-  margin: var(--spacing-sm) 0 var(--spacing-xs);
+  font-size   : .9rem;
+  font-weight : 700;
+  margin      : var(--spacing-sm) 0 var(--spacing-xs);
 }
 
 .badge-card__desc {
-  font-size: .75rem;
-  color: var(--color-text-muted);
-  line-height: 1.4;
+  font-size   : .75rem;
+  color       : var(--color-text-muted);
+  line-height : 1.4;
 }
 
 .badge-card__cost {
-  font-size: .8rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  margin-top: var(--spacing-sm);
+  font-size   : .8rem;
+  font-weight : 700;
+  color       : var(--color-primary);
+  margin-top  : var(--spacing-sm);
 }
 
+/* 보유 표시 체크 : 카드 우상단에 절대 위치 */
 .badge-card__owned {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: .7rem;
+  position  : absolute;
+  top       : 8px;
+  right     : 8px;
+  font-size : .7rem;
 }
 
+/* 미보유 잠금 뱃지 : 흐리게 표시하여 비활성 상태 표현 */
 .badge-card.locked {
-  opacity: .55;
-  filter: grayscale(.5);
+  opacity : .55;
+  filter  : grayscale(.5); /* 채도를 낮춰 잠긴 느낌을 강조 */
 }
 
-/* ══════════════════════════════════════
+
+/* ════════════════════════════════════════
    💎 포인트 탭
-══════════════════════════════════════ */
+════════════════════════════════════════ */
+
+/* 현재 보유 포인트 요약 배너 */
+/*
+  justify-content: space-between : 좌측 포인트 정보와 우측 💎 이모지를 양 끝 배치
+*/
 .point-total {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-xl);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background      : linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius   : var(--radius-lg);
+  padding         : var(--spacing-xl);
+  color           : #fff;
+  display         : flex;
+  align-items     : center;
+  justify-content : space-between;
 }
 
 .point-total__label {
-  font-size: .9rem;
-  opacity: .85;
+  font-size : .9rem;
+  opacity   : .85;
 }
 
 .point-total__value {
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-size   : 2.5rem;
+  font-weight : 800;
 }
 
+/* 포인트 내역 목록 */
 .point-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-sm);
 }
 
+/* 포인트 내역 개별 아이템 */
+/*
+  border-left: 3px solid : 좌측 강조선으로 적립(초록)·사용(빨강)을 구분합니다.
+*/
 .point-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-sm) var(--spacing-md);
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  border-left: 3px solid var(--color-border);
+  display         : flex;
+  align-items     : center;
+  justify-content : space-between;
+  padding         : var(--spacing-sm) var(--spacing-md);
+  background      : var(--color-surface);
+  border-radius   : var(--radius-md);
+  border-left     : 3px solid var(--color-border); /* 기본값 (중립) */
 }
 
-.point-item--plus {
-  border-left-color: var(--color-success);
-}
+/* 적립 : 초록 좌측 선 */
+.point-item--plus  { border-left-color: var(--color-success); }
 
-.point-item--minus {
-  border-left-color: var(--color-error);
-}
+/* 사용 : 빨강 좌측 선 */
+.point-item--minus { border-left-color: var(--color-error); }
 
 .point-item__type {
-  font-size: .88rem;
-  color: var(--color-text);
+  font-size : .88rem;
+  color     : var(--color-text);
 }
 
 .point-item__date {
-  font-size: .75rem;
-  color: var(--color-text-muted);
+  font-size : .75rem;
+  color     : var(--color-text-muted);
 }
 
+/* 포인트 증감 수치 */
 .point-item__val {
   font-weight: 700;
 }
 
-.point-item__val.plus {
-  color: var(--color-success);
-}
+.point-item__val.plus  { color: var(--color-success); } /* '+OOP' */
+.point-item__val.minus { color: var(--color-error);   } /* '-OOP' */
 
-.point-item__val.minus {
-  color: var(--color-error);
-}
 
-/* ══════════════════════════════════════
+/* ════════════════════════════════════════
    ⚙️ 설정 탭
-══════════════════════════════════════ */
+════════════════════════════════════════ */
+
+/*
+  max-width: 480px : 폼이 지나치게 넓어지지 않도록 제한합니다.
+*/
 .settings-form {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-xl);
-  box-shadow: var(--shadow-sm);
-  display: flex;
+  background    : var(--color-surface);
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-xl);
+  box-shadow    : var(--shadow-sm);
+  display       : flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
-  max-width: 480px;
+  gap           : var(--spacing-lg);
+  max-width     : 480px;
 }
 
+/* 설정 폼 소제목 : 하단 구분선으로 입력 영역과 분리 */
 .settings-form h4 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 0 0 var(--spacing-sm);
+  font-size     : 1rem;
+  font-weight   : 700;
+  margin        : 0 0 var(--spacing-sm);
   padding-bottom: var(--spacing-sm);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom : 1px solid var(--color-border);
 }
 
-/* 갱신 시간 표시 */
-.ranking-header__updated {
-  font-size: .75rem;
-  color: var(--color-text-muted);
-  margin: 6px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
 
-.ranking-update-badge {
-  font-size: .68rem;
-  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-  color: var(--color-primary);
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
-  font-weight: 600;
-}
-
-/* ══════════════════════════════════════
+/* ════════════════════════════════════════
    🎨 스킨 탭
-══════════════════════════════════════ */
+════════════════════════════════════════ */
+
+/* 스킨 타입별 섹션 (컬러·배경) 컨테이너 */
 .skin-section {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  box-shadow: var(--shadow-sm);
+  background    : var(--color-surface);
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-lg);
+  box-shadow    : var(--shadow-sm);
 }
 
+/* 섹션 소제목 : 통계 카드 h4와 동일한 스타일 */
 .skin-section__title {
-  font-size: .8rem;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: .5px;
-  margin: 0 0 var(--spacing-md);
+  font-size      : .8rem;
+  color          : var(--color-text-muted);
+  text-transform : uppercase;
+  letter-spacing : .5px;
+  margin         : 0 0 var(--spacing-md);
 }
 
+/*
+  스킨 카드 그리드
+  repeat(auto-fill, minmax(200px, 1fr)) :
+    컨테이너 너비에 따라 열 수가 자동 조정됩니다.
+*/
 .skin-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: var(--spacing-md);
+  display               : grid;
+  grid-template-columns : repeat(auto-fill, minmax(200px, 1fr));
+  gap                   : var(--spacing-md);
 }
 
+/* 스킨 카드 */
+/*
+  overflow: hidden : 미리보기 색상 바의 모서리가 카드 테두리에 맞게 잘립니다.
+*/
 .skin-card {
-  background: var(--color-bg);
-  border-radius: var(--radius-lg);
-  border: 2px solid var(--color-border);
-  overflow: hidden;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  background    : var(--color-bg);
+  border-radius : var(--radius-lg);
+  border        : 2px solid var(--color-border);
+  overflow      : hidden;
+  transition    : transform var(--transition-fast),
+                  box-shadow var(--transition-fast);
 }
 
 .skin-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  transform  : translateY(-3px);
+  box-shadow : var(--shadow-md);
 }
 
+/* 현재 적용 중인 스킨 : 브랜드 색상 테두리 + 글로우 효과 */
 .skin-card--active {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
+  border-color : var(--color-primary);
+  box-shadow   : 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 
+/* 미구매 스킨 : 흐리게 표시 */
 .skin-card--locked {
   opacity: .7;
 }
 
-/* 미리보기 색상 바 */
+/* 스킨 색상 미리보기 바 : background는 JSX에서 skin_preview로 동적 적용 */
 .skin-card__preview {
-  height: 60px;
-  width: 100%;
+  height : 60px;
+  width  : 100%;
 }
 
 .skin-card__info {
@@ -722,181 +885,207 @@
 }
 
 .skin-card__name {
-  font-size: .9rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: 2px;
+  font-size     : .9rem;
+  font-weight   : 700;
+  color         : var(--color-text);
+  margin-bottom : 2px;
 }
 
 .skin-card__desc {
-  font-size: .75rem;
-  color: var(--color-text-muted);
-  line-height: 1.4;
+  font-size   : .75rem;
+  color       : var(--color-text-muted);
+  line-height : 1.4;
 }
 
+/* 액션 버튼 영역 : 우측 정렬 */
 .skin-card__action {
-  padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
-  display: flex;
-  justify-content: flex-end;
+  padding         : var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+  display         : flex;
+  justify-content : flex-end;
 }
 
+/* '✅ 적용 중' 텍스트 배지 */
 .skin-active-badge {
-  font-size: .75rem;
-  font-weight: 700;
-  color: var(--color-primary);
+  font-size   : .75rem;
+  font-weight : 700;
+  color       : var(--color-primary);
 }
 
-/* MyPage.css 추가 */
+
+/* ════════════════════════════════════════
+   🍞 토스트 알림
+   구매·적용 결과를 화면 하단 중앙에 3초간 표시합니다.
+════════════════════════════════════════ */
+
+/*
+  position: fixed + left: 50% + transform: translateX(-50%) :
+    화면 너비와 무관하게 항상 정중앙 하단에 고정됩니다.
+  z-index: 9999 : 모든 요소 위에 표시됩니다.
+  slideUp 애니메이션 : 아래에서 위로 부드럽게 등장합니다.
+*/
 .toast {
-  position: fixed;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: .75rem 1.5rem;
-  border-radius: var(--radius-full);
-  font-size: .9rem;
-  font-weight: 600;
-  z-index: 9999;
-  box-shadow: var(--shadow-md);
-  animation: slideUp .3s ease;
+  position      : fixed;
+  bottom        : 2rem;
+  left          : 50%;
+  transform     : translateX(-50%);
+  padding       : .75rem 1.5rem;
+  border-radius : var(--radius-full);
+  font-size     : .9rem;
+  font-weight   : 600;
+  z-index       : 9999;
+  box-shadow    : var(--shadow-md);
+  animation     : slideUp .3s ease;
 }
 
-.toast--success {
-  background: var(--color-success);
-  color: #fff;
-}
+.toast--success { background: var(--color-success); color: #fff; } /* 초록 배경 */
+.toast--error   { background: var(--color-error);   color: #fff; } /* 빨강 배경 */
 
-.toast--error {
-  background: var(--color-error);
-  color: #fff;
-}
-
+/* 토스트 등장 애니메이션 : 아래 20px에서 원래 위치로 이동하며 불투명 */
 @keyframes slideUp {
   from {
-    transform: translateX(-50%) translateY(20px);
-    opacity: 0;
+    transform : translateX(-50%) translateY(20px);
+    opacity   : 0;
   }
-
   to {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
+    transform : translateX(-50%) translateY(0);
+    opacity   : 1;
   }
 }
 
-/* ══════════════════════════════════════
+
+/* ════════════════════════════════════════
    📆 출석 스트릭 섹션
-══════════════════════════════════════ */
+   스트릭 요약 카드·동기부여 메시지·잔디 캘린더를 표시합니다.
+════════════════════════════════════════ */
+
 .streak-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
+  display        : flex;
+  flex-direction : column;
+  gap            : var(--spacing-md);
 }
 
-/* 요약 카드 3개 */
+
+/* ── 스트릭 요약 카드 3개 ── */
+/*
+  항상 3열로 표시하여 카드 간 비율을 일정하게 유지합니다.
+  화면이 좁아지면 자연스럽게 카드가 작아집니다.
+*/
 .streak-summary {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-md);
+  display               : grid;
+  grid-template-columns : repeat(3, 1fr);
+  gap                   : var(--spacing-md);
 }
 
 @media (max-width: 480px) {
   .streak-summary {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-sm);
+    grid-template-columns : repeat(3, 1fr); /* 모바일에서도 3열 유지 */
+    gap                   : var(--spacing-sm);
   }
 }
 
+/* 스트릭 요약 카드 기본 스타일 */
 .streak-summary__card {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg) var(--spacing-md);
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-  border: 2px solid var(--color-border);
-  display: flex;
+  background    : var(--color-surface);
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-lg) var(--spacing-md);
+  text-align    : center;
+  box-shadow    : var(--shadow-sm);
+  border        : 2px solid var(--color-border);
+  display       : flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  transition: transform var(--transition-fast);
+  align-items   : center;
+  gap           : 4px;
+  transition    : transform var(--transition-fast);
 }
 
 .streak-summary__card:hover {
   transform: translateY(-2px);
 }
 
-/* 현재 최장 기록 카드 강조 */
+/* 최장 연속 기록 카드 : 브랜드 색상으로 강조 */
 .streak-summary__card--highlight {
-  border-color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
+  border-color : var(--color-primary);
+  background   : color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
 }
 
 .streak-summary__icon {
-  font-size: 1.6rem;
-  line-height: 1;
+  font-size   : 1.6rem;
+  line-height : 1;
 }
 
+/* 스트릭 수치 : 크고 굵게, 브랜드 색상 */
 .streak-summary__val {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--color-primary);
-  line-height: 1.1;
+  font-size   : 2rem;
+  font-weight : 800;
+  color       : var(--color-primary);
+  line-height : 1.1;
 }
 
+/* 카드 소제목 : 작은 대문자 텍스트 */
 .streak-summary__label {
-  font-size: .72rem;
-  color: var(--color-text-muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .3px;
+  font-size      : .72rem;
+  color          : var(--color-text-muted);
+  font-weight    : 600;
+  text-transform : uppercase;
+  letter-spacing : .3px;
 }
 
+/* '일' 단위 텍스트 */
 .streak-summary__sub {
-  font-size: .7rem;
-  color: var(--color-text-muted);
+  font-size : .7rem;
+  color     : var(--color-text-muted);
 }
 
-/* 동기부여 메시지 */
+
+/* ── 동기부여 메시지 ── */
+/*
+  color-mix : 브랜드 색상을 8%로 혼합한 은은한 배경
+  border    : 브랜드 색상 25%로 혼합한 반투명 테두리
+*/
 .streak-motivation {
-  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
-  border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: .88rem;
-  font-weight: 600;
-  color: var(--color-primary);
-  text-align: center;
+  background    : color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+  border        : 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+  border-radius : var(--radius-md);
+  padding       : var(--spacing-sm) var(--spacing-md);
+  font-size     : .88rem;
+  font-weight   : 600;
+  color         : var(--color-primary);
+  text-align    : center;
 }
 
-/* 캘린더 래퍼 */
+
+/* ── 출석 잔디 캘린더 래퍼 ── */
 .streak-calendar-wrap {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  box-shadow: var(--shadow-sm);
+  background    : var(--color-surface);
+  border-radius : var(--radius-lg);
+  padding       : var(--spacing-lg);
+  box-shadow    : var(--shadow-sm);
 }
 
+/* 캘린더 헤더 : 제목(좌)과 누적 출석일 배지(우) */
 .streak-calendar-wrap__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--spacing-md);
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
+  display         : flex;
+  align-items     : center;
+  justify-content : space-between;
+  margin-bottom   : var(--spacing-md);
+  flex-wrap       : wrap;
+  gap             : var(--spacing-sm);
 }
 
 .streak-calendar-wrap__header h4 {
-  font-size: .88rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin: 0;
+  font-size   : .88rem;
+  font-weight : 700;
+  color       : var(--color-text);
+  margin      : 0;
 }
 
+/* 누적 출석일 pill 배지 */
 .streak-total-badge {
-  font-size: .72rem;
-  font-weight: 700;
-  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-  color: var(--color-primary);
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  font-size     : .72rem;
+  font-weight   : 700;
+  background    : color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color         : var(--color-primary);
+  padding       : 3px 10px;
+  border-radius : var(--radius-full);
+  border        : 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
 }

@@ -1,5 +1,54 @@
-// client/src/api/badge.api.js
+// ─────────────────────────────────────────────────────────
+// 📦 src/api/badge.api.js  ─  뱃지 관련 API 함수 모음
+// ─────────────────────────────────────────────────────────
+// 뱃지 목록 조회 및 뱃지 구매 요청을 서버로 전달하는 역할을 합니다.
+// ─────────────────────────────────────────────────────────
+
+
+// ────────────────────────────────────────────────
+// 📦 필요한 모듈 불러오기
+// ────────────────────────────────────────────────
+
+/*
+  axiosInstance란?
+  baseURL, 토큰 자동 첨부, 401 자동 로그아웃 처리 등
+  공통 설정이 미리 적용된 커스텀 axios 객체입니다.
+  매 요청마다 설정을 반복하지 않아도 되므로 일관된 요청이 가능합니다.
+  (자세한 설정 내용은 src/api/axiosInstance.js 참고)
+*/
 import axiosInstance from './axiosInstance';
 
-export const getBadgeListAPI  = ()           => axiosInstance.get('/badges');
-export const purchaseBadgeAPI = (badge_idx)  => axiosInstance.post(`/badges/${badge_idx}/purchase`);
+
+// ────────────────────────────────────────────────
+// 🏅 뱃지 API 함수 정의
+// ────────────────────────────────────────────────
+
+/*
+  ▼ 공통 구조 설명 ▼
+
+  각 함수는 axiosInstance의 HTTP 메서드를 호출하고
+  서버 응답(Promise)을 그대로 반환합니다.
+  호출부에서 await 또는 .then()으로 응답 결과를 받아야 합니다.
+
+  ▼ 사용하는 HTTP 메서드 ▼
+    - GET  : 서버에서 데이터를 '조회'할 때 사용합니다. (서버 데이터 변경 없음)
+    - POST : 서버에 데이터를 '생성/전달'할 때 사용합니다. (서버 데이터 변경 있음)
+
+  ▼ 엔드포인트 설명 ▼
+    - '/badges'                        : 전체 뱃지 목록 조회 엔드포인트
+    - '/badges/${badge_idx}/purchase'  : 특정 뱃지 구매 처리 엔드포인트
+                                         badge_idx를 URL에 직접 포함시켜
+                                         어떤 뱃지를 구매할지 서버에 전달합니다.
+                                         (REST API의 URL 파라미터 방식)
+*/
+
+// 전체 뱃지 목록 조회 API
+// 서버로부터 구매 가능한 모든 뱃지 정보를 가져옵니다.
+// 반환 예시 : [{ badge_idx: 1, name: '출석왕', price: 100, ... }, ...]
+export const getBadgeListAPI  = ()          => axiosInstance.get('/badges');
+
+// 특정 뱃지 구매 API
+// @param {number} badge_idx - 구매할 뱃지의 고유 식별자(ID)
+// 요청 본문(body) 없이 URL에 badge_idx만 포함하여 POST 요청을 전송합니다.
+// 반환 예시 : { success: true, message: '구매 완료', ... }
+export const purchaseBadgeAPI = (badge_idx) => axiosInstance.post(`/badges/${badge_idx}/purchase`);

@@ -1,17 +1,80 @@
 /* client/src/components/common/Spinner.css */
+
+
+/* ────────────────────────────────────────────────
+   📦 Spinner 컴포넌트 스타일
+   스피너 애니메이션과 크기 변형(sm / lg)을 정의합니다.
+   ──────────────────────────────────────────────── */
+
+
+/* ── 스피너 래퍼 : 스피너와 텍스트를 감싸는 컨테이너 ── */
+/*
+  display: flex        : 자식 요소(스피너 + 텍스트)를 가로로 나란히 배치합니다.
+  align-items: center  : 세로 방향 중앙 정렬 (스피너와 텍스트 높이를 맞춥니다.)
+  justify-content: center : 가로 방향 중앙 정렬 (전체를 화면 중앙에 위치시킵니다.)
+  padding              : CSS 변수로 정의된 여백을 적용하여 내부 여백을 확보합니다.
+*/
 .spinner-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-2xl);
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  padding         : var(--spacing-2xl); /* 컴포넌트 사방에 넉넉한 여백 */
 }
+
+
+/* ── 스피너 본체 : 회전하는 원형 로딩 인디케이터 ── */
+/*
+  원형 테두리의 일부분만 색상을 달리하여 회전시키는 방식으로 구현합니다.
+
+  ▼ 원형 테두리 구성 원리 ▼
+    border           : 전체 테두리를 흐린 색(color-border)으로 설정합니다.
+    border-top-color : 위쪽 테두리만 브랜드 색상(color-primary)으로 덮어씁니다.
+    → 회색 원에서 한 부분만 색이 있는 것처럼 보여 로딩 효과를 연출합니다.
+
+  border-radius: 50% : 정사각형 요소를 완전한 원으로 만듭니다.
+
+  animation : spin 애니메이션을 0.7초 주기로 일정하게(linear) 무한 반복합니다.
+*/
 .spinner {
-  width: 40px; height: 40px;
-  border: 4px solid var(--color-border);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
+  width         : 40px;
+  height        : 40px;
+  border        : 4px solid var(--color-border);       /* 기본 테두리 : 흐린 회색 */
+  border-top-color : var(--color-primary);             /* 위쪽만 브랜드 색상으로 강조 */
+  border-radius : 50%;                                 /* 원형으로 변환 */
+  animation     : spin .7s linear infinite;            /* 0.7초마다 1회전, 무한 반복 */
 }
-.spinner--sm { width: 20px; height: 20px; border-width: 3px; }
-.spinner--lg { width: 60px; height: 60px; border-width: 5px; }
-@keyframes spin { to { transform: rotate(360deg); } }
+
+
+/* ── 크기 변형 클래스 (BEM Modifier 방식) ── */
+/*
+  BEM이란?
+  Block(블록)__Element(요소)--Modifier(변형) 형식의 CSS 클래스 명명 규칙입니다.
+  spinner--sm / spinner--lg 처럼 '--' 뒤에 변형 이름을 붙여
+  기본 스타일을 유지하면서 일부 속성만 덮어쓸 수 있습니다.
+*/
+
+/* 소형(sm) 스피너 : 인라인 버튼 등 공간이 좁은 곳에 사용 */
+.spinner--sm {
+  width        : 20px;  /* 기본(40px)의 절반 크기 */
+  height       : 20px;
+  border-width : 3px;   /* 크기가 작아졌으므로 테두리 두께도 줄임 */
+}
+
+/* 대형(lg) 스피너 : 전체 페이지 로딩 등 강조가 필요한 곳에 사용 */
+.spinner--lg {
+  width        : 60px;  /* 기본(40px)보다 1.5배 큰 크기 */
+  height       : 60px;
+  border-width : 5px;   /* 크기가 커졌으므로 테두리 두께도 늘림 */
+}
+
+
+/* ── 회전 애니메이션 정의 ── */
+/*
+  @keyframes spin : 'spin'이라는 이름의 애니메이션을 정의합니다.
+  to { transform: rotate(360deg) }
+    → 애니메이션 시작(0%)부터 끝(100%)까지 360도 회전합니다.
+    → linear 타이밍 함수와 함께 사용하면 일정한 속도로 계속 돌아갑니다.
+*/
+@keyframes spin {
+  to { transform: rotate(360deg); } /* 한 사이클에 360도 완전 회전 */
+}

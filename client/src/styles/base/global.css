@@ -3,82 +3,143 @@
    ─ 버튼, 폼, 배지 등 재사용 클래스 (색상은 variables 참조)
    ═══════════════════════════════════════════════════════ */
 
-/* ── 버튼 기본 */
+
+/* ────────────────────────────────────────────────
+   🔘 버튼 (Button)
+   앱 전체에서 재사용되는 버튼 공통 스타일입니다.
+   크기(size)와 색상(color) 변형 클래스를 조합하여 사용합니다.
+
+   ▼ 사용 예시 ▼
+     기본    : <button class="btn btn--primary">확인</button>
+     소형    : <button class="btn btn--primary btn--sm">확인</button>
+     전체 폭 : <button class="btn btn--outline btn--full">확인</button>
+──────────────────────────────────────────────── */
+
+/*
+  버튼 기본(Base) 스타일입니다.
+  모든 버튼 변형 클래스는 이 클래스와 함께 사용해야 합니다.
+  inline-flex로 아이콘과 텍스트를 나란히 수직 중앙 정렬합니다.
+*/
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-sm);           /* 아이콘과 텍스트 사이 간격 */
   padding: 0.55em 1.25em;
-  border: 2px solid transparent;
+  border: 2px solid transparent;   /* 테두리는 기본 투명 (outline 변형에서 색상 지정) */
   border-radius: var(--radius-md);
   font-size: 0.95rem;
   font-weight: 600;
-  text-decoration: none;
+  text-decoration: none;            /* <a> 태그를 버튼처럼 사용할 때 밑줄 제거 */
   transition:
     background var(--transition-fast),
     color var(--transition-fast),
     border-color var(--transition-fast),
     box-shadow var(--transition-fast);
-  white-space: nowrap;
+  white-space: nowrap;              /* 버튼 텍스트가 줄바꿈되지 않도록 고정 */
 }
 
+/* 비활성화 상태: 반투명 처리 + 클릭 불가 커서로 상호작용 불가임을 표시 */
 .btn:disabled { opacity: .55; cursor: not-allowed; }
 
-/* 사이즈 변형 */
-.btn--sm  { padding: .3em .8em;  font-size: 0.8rem; }
-.btn--lg  { padding: .75em 1.75em; font-size: 1.05rem; }
+
+/* ── 크기 변형 (Size Variants) ──────────────────
+   기본 .btn에 추가로 붙여 버튼 크기를 조절합니다.
+     - btn--sm   : 소형 (목록, 인라인 등 공간이 좁은 곳)
+     - btn--lg   : 대형 (CTA, 주요 액션 버튼)
+     - btn--full : 부모 너비 100% (폼 제출 버튼 등)
+*/
+.btn--sm   { padding: .3em .8em;    font-size: 0.8rem;  }
+.btn--lg   { padding: .75em 1.75em; font-size: 1.05rem; }
 .btn--full { width: 100%; }
 
-/* 색상 변형 */
+
+/* ── 색상 변형 (Color Variants) ─────────────────
+   버튼의 의미와 중요도에 따라 색상 변형 클래스를 선택합니다.
+     - btn--primary   : 주요 액션 (저장, 확인, 시작 등)
+     - btn--secondary : 보조 액션
+     - btn--outline   : 중간 강조 (취소, 선택 등)
+     - btn--ghost     : 낮은 강조 (부가적인 액션)
+     - btn--danger    : 위험 액션 (삭제, 탈퇴 등)
+*/
+
+/* Primary: 가장 강조되는 주요 액션 버튼 */
 .btn--primary {
   background: var(--color-primary);
-  color: var(--color-on-primary);
+  color: var(--color-on-primary);   /* 주요 색상 위의 텍스트 색상 (보통 흰색) */
 }
+/* 호버 시 밝기를 높이고 그림자를 추가하여 입체감 부여 */
 .btn--primary:hover:not(:disabled) {
   filter: brightness(1.1);
   box-shadow: 0 4px 14px rgba(0,0,0,.15);
 }
 
+/* Secondary: 보조 색상 배경의 버튼 */
 .btn--secondary {
   background: var(--color-secondary);
   color: #fff;
 }
 
+/* Outline: 테두리만 있는 버튼 (호버 시 배경 채워짐) */
 .btn--outline {
   background: transparent;
   border-color: var(--color-primary);
   color: var(--color-primary);
 }
+/* 호버 시 배경을 채워 Primary 버튼처럼 전환 */
 .btn--outline:hover:not(:disabled) {
   background: var(--color-primary);
   color: var(--color-on-primary);
 }
 
+/* Ghost: 배경과 테두리 없이 텍스트만 보이는 가장 낮은 강조 버튼 */
 .btn--ghost {
   background: transparent;
   color: var(--color-text-muted);
 }
+/* 호버 시 테두리 색상으로 배경을 채워 클릭 가능함을 표시 */
 .btn--ghost:hover:not(:disabled) { background: var(--color-border); }
 
+/* Danger: 삭제·탈퇴 등 되돌리기 어려운 위험한 액션에 사용 */
 .btn--danger {
   background: var(--color-error);
   color: #fff;
 }
 
-/* ── 폼 그룹 */
+
+/* ────────────────────────────────────────────────
+   📝 폼 그룹 (Form Group)
+   라벨 + 입력 필드를 세로로 묶는 컨테이너입니다.
+   input, select, textarea를 동일한 스타일로 통일합니다.
+
+   ▼ 사용 예시 ▼
+     <div class="form-group">
+       <label>이메일</label>
+       <input type="email" placeholder="example@email.com" />
+     </div>
+──────────────────────────────────────────────── */
+
+/*
+  라벨과 입력 필드를 세로로 쌓고 사이 간격을 일정하게 유지합니다.
+*/
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-xs);           /* 라벨과 입력 필드 사이 간격 */
 }
 
+/* 폼 라벨: 입력 필드의 역할을 설명하는 텍스트 */
 .form-group label {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text);
 }
 
+/*
+  입력 필드 공통 스타일입니다.
+  input, select, textarea 세 종류를 동일하게 처리하여
+  폼 내 요소들이 시각적으로 통일되도록 합니다.
+*/
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -86,29 +147,59 @@
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-md);
   font-size: 0.95rem;
-  font-family: var(--font-body);
+  font-family: var(--font-body);    /* 브라우저 기본 폰트 대신 앱 폰트 적용 */
   background: var(--color-surface);
   color: var(--color-text);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-  width: 100%;
+  width: 100%;                      /* 부모 form-group 너비를 가득 채움 */
 }
 
+/*
+  포커스 상태: 현재 입력 중인 필드를 시각적으로 강조합니다.
+  outline을 제거하고 테두리 색상 변경 + 글로우 효과로 대체합니다.
+  color-mix로 주요 색상 20% 투명도의 그림자를 만들어 부드럽게 강조합니다.
+*/
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  outline: none;
+  outline: none;                    /* 브라우저 기본 포커스 아웃라인 제거 */
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 
-/* ── 뱃지 */
+
+/* ────────────────────────────────────────────────
+   🏷️ 배지 (Badge)
+   상태나 카테고리를 짧은 텍스트로 표시하는 인라인 태그입니다.
+   의미에 따라 색상 변형 클래스를 선택합니다.
+
+   ▼ 색상 변형 ▼
+     - badge--success : 성공/완료 상태 (초록 계열)
+     - badge--error   : 오류/실패 상태 (빨강 계열)
+     - badge--warning : 주의/경고 상태 (노랑 계열)
+
+   ▼ 사용 예시 ▼
+     <span class="badge badge--success">완료</span>
+     <span class="badge badge--error">실패</span>
+──────────────────────────────────────────────── */
+
+/*
+  배지 기본(Base) 스타일입니다.
+  border-radius: full로 완전한 알약(pill) 형태를 만듭니다.
+*/
 .badge {
   display: inline-block;
   padding: 2px 10px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-full); /* 완전한 알약(pill) 형태 */
   font-size: 0.75rem;
   font-weight: 600;
 }
+
+/* 성공/완료 상태: 초록 계열 배경 + 텍스트 */
 .badge--success { background: var(--color-success-bg); color: var(--color-success); }
+
+/* 오류/실패 상태: 빨강 계열 배경 + 텍스트 */
 .badge--error   { background: var(--color-error-bg);   color: var(--color-error);   }
+
+/* 주의/경고 상태: 노랑 계열 배경 + 텍스트 */
 .badge--warning { background: var(--color-warning-bg); color: var(--color-warning); }

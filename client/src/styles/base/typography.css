@@ -2,30 +2,79 @@
    src/styles/base/typography.css  ─  텍스트 공통 스타일
    ═══════════════════════════════════════════════════════ */
 
+
+/* ────────────────────────────────────────────────
+   🔤 제목 태그 공통 스타일 (h1 ~ h6)
+   모든 제목 태그에 공통으로 적용되는 글꼴, 줄간격, 색상을 정의합니다.
+   개별 크기와 굵기는 아래 각 태그별 규칙에서 별도로 지정합니다.
+──────────────────────────────────────────────── */
+
+/*
+  font-family: var(--font-heading) : 본문 글꼴(--font-body)과 구분되는
+                                     제목 전용 글꼴을 적용합니다.
+  line-height: var(--line-height-tight) : 제목은 본문보다 줄간격을 좁게 설정하여
+                                          여러 줄이 되더라도 덩어리감 있게 보이도록 합니다.
+*/
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   line-height: var(--line-height-tight);
   color: var(--color-text);
 }
 
-h1 { font-size: 2rem;    font-weight: 800; }
-h2 { font-size: 1.5rem;  font-weight: 700; }
-h3 { font-size: 1.25rem; font-weight: 700; }
-h4 { font-size: 1rem;    font-weight: 600; }
+/* ── 제목 태그별 크기 및 굵기 ────────────────────
+   숫자가 작아질수록(h1→h6) 크기와 굵기를 단계적으로 줄입니다.
+*/
+h1 { font-size: 2rem;    font-weight: 800; } /* 페이지 최상위 제목 */
+h2 { font-size: 1.5rem;  font-weight: 700; } /* 주요 섹션 제목    */
+h3 { font-size: 1.25rem; font-weight: 700; } /* 하위 섹션 제목    */
+h4 { font-size: 1rem;    font-weight: 600; } /* 카드·항목 제목    */
 
-p  { line-height: var(--line-height-base); }
 
+/* ────────────────────────────────────────────────
+   📄 본문 텍스트 스타일
+   p 태그와 보조 텍스트(<small>)의 가독성을 높이는 스타일을 정의합니다.
+──────────────────────────────────────────────── */
+
+/*
+  line-height: var(--line-height-base) : 제목보다 넓은 줄간격을 적용하여
+                                         긴 문장도 읽기 편하도록 합니다.
+*/
+p { line-height: var(--line-height-base); }
+
+/*
+  small : 부가 설명, 단위, 날짜 등 강조가 필요 없는 보조 텍스트에 사용합니다.
+  font-size: 0.8em : em 단위를 사용하여 부모 글꼴 크기 기준으로 상대적으로 줄어듭니다.
+                     (예: 부모가 1rem이면 0.8rem, 부모가 1.25rem이면 1rem으로 조정)
+*/
 small { font-size: 0.8em; color: var(--color-text-muted); }
+
+
+/* ────────────────────────────────────────────────
+   📌 페이지 제목 (Page Title)
+   각 페이지의 최상단에 표시되는 제목 유틸리티 클래스입니다.
+   하단 구분선으로 제목 영역과 본문 콘텐츠를 시각적으로 분리합니다.
+──────────────────────────────────────────────── */
 
 .page-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-text);
   padding-bottom: var(--spacing-md);
-  border-bottom: 2px solid var(--color-border);
-  margin-bottom: var(--spacing-lg);
+  border-bottom: 2px solid var(--color-border); /* 제목 아래 구분선 */
+  margin-bottom: var(--spacing-lg);             /* 구분선과 본문 콘텐츠 사이 여백 */
 }
 
-.text-muted    { color: var(--color-text-muted); font-size: 0.9rem; }
-.page-loading  { padding: var(--spacing-2xl); text-align: center; color: var(--color-text-muted); }
-.page-empty    { padding: var(--spacing-2xl); text-align: center; color: var(--color-text-muted); }
+
+/* ────────────────────────────────────────────────
+   🔧 텍스트 유틸리티 클래스
+   반복적으로 사용되는 텍스트 상태 스타일을 유틸리티 클래스로 제공합니다.
+──────────────────────────────────────────────── */
+
+/* 흐린 보조 텍스트 : 부가 설명, 힌트, 비활성 상태 텍스트 등에 사용 */
+.text-muted   { color: var(--color-text-muted); font-size: 0.9rem; }
+
+/* 페이지 로딩 중 안내 텍스트 : 데이터를 불러오는 동안 중앙에 표시 */
+.page-loading { padding: var(--spacing-2xl); text-align: center; color: var(--color-text-muted); }
+
+/* 페이지 빈 상태 안내 텍스트 : 표시할 데이터가 없을 때 중앙에 표시 */
+.page-empty   { padding: var(--spacing-2xl); text-align: center; color: var(--color-text-muted); }

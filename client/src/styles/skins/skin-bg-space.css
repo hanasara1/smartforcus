@@ -1,41 +1,125 @@
 /* ═══════════════════════════════════════════════════════
    skin-bg-space.css ── 우주 배경 테마
    ═══════════════════════════════════════════════════════ */
+
+
+/*
+  우주(Space) 테마란?
+  짙은 남색·보라 계열의 어두운 배경에 인디고(indigo)·바이올렛(violet) 계열
+  주요 색상을 조합한 다크 테마입니다.
+  배경에 별 패턴 SVG와 빛 번짐 그라디언트를 겹쳐
+  우주 공간에 있는 듯한 몰입감 있는 분위기를 연출합니다.
+
+  ▼ 우주 테마 특징 ▼
+    - 주요 색상  : 밝은 인디고·바이올렛 (어두운 배경 위 가독성 확보)
+    - 배경/표면  : 매우 짙은 남색 계열 (완전한 다크 모드)
+    - 상태 색상  : 어두운 배경에서도 잘 보이도록 밝고 채도 높은 색상으로 교체
+    - 그림자     : 어두운 배경에서 요소를 부각시키기 위해 불투명도를 크게 높임
+    - 배경 장식  : 별 SVG 패턴 + 성운 느낌의 방사형 그라디언트 2겹 조합
+*/
+
+
+/* ────────────────────────────────────────────────
+   🎨 색상 토큰 재정의
+──────────────────────────────────────────────── */
 [data-skin="bg-space"] {
-  --color-primary:    #818cf8;
-  --color-on-primary: #1e1b4b;
-  --color-secondary:  #a78bfa;
 
-  --color-bg:      #0f0c29;
-  --color-surface: #1a1744;
-  --color-border:  #312e7a;
+  /* ── 브랜드 색상
+     어두운 배경 위에서 충분한 대비를 확보하기 위해
+     기본 테마보다 밝은 인디고·바이올렛 계열을 사용합니다.
+  */
+  --color-primary:    #818cf8; /* 주요 버튼, 링크, 액센트 → 인디고 400 (밝게 조정) */
+  --color-on-primary: #1e1b4b; /* primary 배경 위 텍스트 → 짙은 인디고로 대비 확보 */
+  --color-secondary:  #a78bfa; /* 보조 강조색 → 바이올렛 400                       */
 
-  --color-text:       #e2e8f0;
-  --color-text-muted: #94a3b8;
 
-  --color-nav-bg:   #07050f;
-  --color-nav-text: #a5b4fc;
+  /* ── 배경 색상
+     깊고 어두운 남색 계열로 우주의 암흑을 표현합니다.
+     surface는 bg보다 약간 밝게 하여 카드·패널이 배경에서 구분되도록 합니다.
+  */
+  --color-bg:      #0f0c29; /* 페이지 전체 배경 → 거의 검정에 가까운 짙은 남색 */
+  --color-surface: #1a1744; /* 카드, 모달 등 부유 요소 배경 → 배경보다 한 단계 밝은 남색 */
+  --color-border:  #312e7a; /* 구분선, 테두리 → 배경과 어울리는 중간 남색 */
 
-  --color-success:    #4ade80;
-  --color-success-bg: rgba(74,222,128,.15);
-  --color-error:      #f87171;
-  --color-error-bg:   rgba(248,113,113,.15);
-  --color-warning:    #fbbf24;
-  --color-warning-bg: rgba(251,191,36,.15);
 
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.5);
-  --shadow-md: 0 4px 20px rgba(0,0,0,.6);
+  /* ── 텍스트 색상
+     어두운 배경 위에서 충분한 밝기로 가독성을 유지합니다.
+     기본 테마와 반대로 밝은 색이 주요 텍스트, 어두운 색이 보조 텍스트입니다.
+  */
+  --color-text:       #e2e8f0; /* 본문, 제목 등 주요 텍스트 → 슬레이트 200 (밝게) */
+  --color-text-muted: #94a3b8; /* 부가 설명, 힌트 등 보조 텍스트 → 슬레이트 400   */
+
+
+  /* ── 내비게이션 색상
+     앱에서 가장 어두운 색으로 사이드바를 처리하여
+     배경(bg)보다 더 깊은 공간감을 연출합니다.
+  */
+  --color-nav-bg:   #07050f; /* 사이드바 배경 → 거의 완전한 검정에 가까운 남색 */
+  --color-nav-text: #a5b4fc; /* 사이드바 메뉴 텍스트 → 인디고 300              */
+
+
+  /* ── 상태 색상 (Success / Error / Warning)
+     어두운 배경에서도 의미가 명확하게 전달되도록
+     채도가 높은 밝은 색상을 사용합니다.
+     배경색은 완전 불투명 대신 반투명(rgba)으로 처리하여
+     어두운 surface 색상이 자연스럽게 비치도록 합니다.
+  */
+  --color-success:    #4ade80;              /* 성공 텍스트 → 밝은 초록 (green 400)     */
+  --color-success-bg: rgba(74,222,128,.15); /* 성공 배지 배경 → 초록 15% 반투명        */
+  --color-error:      #f87171;              /* 오류 텍스트 → 밝은 빨강 (red 400)       */
+  --color-error-bg:   rgba(248,113,113,.15);/* 오류 배지 배경 → 빨강 15% 반투명        */
+  --color-warning:    #fbbf24;              /* 경고 텍스트 → 밝은 노랑 (amber 400)     */
+  --color-warning-bg: rgba(251,191,36,.15); /* 경고 배지 배경 → 노랑 15% 반투명        */
+
+
+  /* ── 그림자
+     어두운 배경에서는 연한 그림자가 보이지 않으므로
+     불투명도를 기본 테마보다 크게 높여 요소가 배경에서 확실히 떠 보이도록 합니다.
+  */
+  --shadow-sm: 0 1px 3px  rgba(0,0,0,.5);  /* 카드 등 기본 부각 (불투명도 50%)  */
+  --shadow-md: 0 4px 20px rgba(0,0,0,.6);  /* 드롭다운 등 강한 부각 (불투명도 60%) */
 }
 
-/* ✅ 우주 배경 애니메이션 */
+
+/* ────────────────────────────────────────────────
+   🌌 배경 장식 (별 + 성운 그라디언트)
+   body::before 가상 요소로 페이지 전체에
+   별빛과 성운 빛 번짐 효과를 겹쳐서 표현합니다.
+──────────────────────────────────────────────── */
+
+/*
+  ▼ 배경 레이어 3겹 구성 ▼ (위에서 아래 순서로 렌더링)
+
+    1번 레이어 - 성운 빛 번짐 (왼쪽):
+      radial-gradient(ellipse at 20% 50%, rgba(120,119,198,.3) ...)
+      보라빛 타원형 그라디언트가 화면 왼쪽 중앙에서 퍼져나옵니다.
+
+    2번 레이어 - 성운 빛 번짐 (오른쪽):
+      radial-gradient(ellipse at 80% 20%, rgba(99,102,241,.2) ...)
+      인디고 타원형 그라디언트가 화면 오른쪽 상단에서 퍼져나옵니다.
+
+    3번 레이어 - 별 패턴:
+      url("data:image/svg+xml, ...") 형태의 인라인 SVG입니다.
+      별도 파일 없이 CSS 안에서 SVG를 직접 작성하여 HTTP 요청을 줄입니다.
+      400×400px 캔버스에 반경 1~1.5px의 흰 원 8개를 흩뿌려
+      실제 별처럼 크기와 밝기(opacity)를 불규칙하게 배치합니다.
+      배경이 타일(tile) 방식으로 반복되어 화면 전체를 별로 채웁니다.
+
+  position: fixed + inset: 0 : 스크롤과 무관하게 화면 전체에 고정됩니다.
+  pointer-events: none       : 마우스 클릭 등 상호작용을 통과시켜 콘텐츠 조작을 방해하지 않습니다.
+  z-index: 0                 : 실제 콘텐츠(z-index: 1 이상) 뒤에 배치됩니다.
+*/
 [data-skin="bg-space"] body::before {
   content: '';
   position: fixed;
-  inset: 0;
+  inset: 0; /* top: 0, right: 0, bottom: 0, left: 0 축약 표현 */
   background:
+    /* 1번: 왼쪽 중앙 성운 빛 번짐 (보라 계열) */
     radial-gradient(ellipse at 20% 50%, rgba(120,119,198,.3) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(99,102,241,.2) 0%, transparent 50%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ccircle cx='50'  cy='80'  r='1' fill='white' opacity='.6'/%3E%3Ccircle cx='150' cy='30'  r='1.5' fill='white' opacity='.8'/%3E%3Ccircle cx='250' cy='120' r='1' fill='white' opacity='.5'/%3E%3Ccircle cx='350' cy='60'  r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='80'  cy='200' r='1.5' fill='white' opacity='.6'/%3E%3Ccircle cx='320' cy='250' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='180' cy='300' r='1' fill='white' opacity='.5'/%3E%3Ccircle cx='280' cy='350' r='1.5' fill='white' opacity='.7'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
+    /* 2번: 오른쪽 상단 성운 빛 번짐 (인디고 계열) */
+    radial-gradient(ellipse at 80% 20%, rgba(99,102,241,.2)  0%, transparent 50%),
+    /* 3번: 별 패턴 SVG (인라인 데이터 URI, 반복 타일링) */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ccircle cx='50'  cy='80'  r='1'   fill='white' opacity='.6'/%3E%3Ccircle cx='150' cy='30'  r='1.5' fill='white' opacity='.8'/%3E%3Ccircle cx='250' cy='120' r='1'   fill='white' opacity='.5'/%3E%3Ccircle cx='350' cy='60'  r='1'   fill='white' opacity='.7'/%3E%3Ccircle cx='80'  cy='200' r='1.5' fill='white' opacity='.6'/%3E%3Ccircle cx='320' cy='250' r='1'   fill='white' opacity='.8'/%3E%3Ccircle cx='180' cy='300' r='1'   fill='white' opacity='.5'/%3E%3Ccircle cx='280' cy='350' r='1.5' fill='white' opacity='.7'/%3E%3C/svg%3E");
+  pointer-events: none; /* 장식 레이어가 클릭 등 상호작용을 막지 않도록 */
+  z-index: 0;           /* 모든 콘텐츠 뒤에 배치 */
 }

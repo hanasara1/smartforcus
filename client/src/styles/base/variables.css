@@ -5,65 +5,138 @@
       실제 색상/폰트 값은 skins/*.css 에서 :root 에 덮어씁니다.
       즉, 스킨 파일 한 개만 교체하면 앱 전체 디자인이 바뀝니다.
    ═══════════════════════════════════════════════════════ */
+
+
+/*
+  CSS 변수(Custom Properties)란?
+  '--변수명: 값' 형식으로 선언하고 'var(--변수명)'으로 불러쓰는 방식입니다.
+  :root에 선언하면 앱의 모든 요소에서 접근할 수 있습니다.
+
+  이 파일의 역할:
+  스킨 파일(skins/*.css)이 로드되기 전 기본값(fallback)을 제공합니다.
+  스킨 파일이 같은 변수명을 :root에 다시 선언하면 자동으로 덮어씌워집니다.
+  덕분에 스킨 파일 하나만 교체하는 것으로 앱 전체 디자인을 바꿀 수 있습니다.
+*/
 :root {
-  /* ── 간격 (8px 그리드) */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-2xl: 48px;
-  --spacing-3xl: 64px;
 
-  /* ── 테두리 반경 */
-  --radius-sm:   4px;
-  --radius-md:   8px;
-  --radius-lg:   16px;
-  --radius-full: 9999px;
+  /* ────────────────────────────────────────────────
+     📐 간격 토큰 (Spacing Tokens)
+     8px 그리드 시스템을 기반으로 한 간격 단계입니다.
+     8px 배수로 증가하여 레이아웃 요소들이 시각적으로
+     일관되게 정렬됩니다.
 
-  /* ── 그림자 (스킨에서 재정의 가능) */
-  --shadow-sm:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
-  --shadow-md:  0 4px 16px rgba(0,0,0,.1),  0 2px 6px rgba(0,0,0,.06);
-  --shadow-lg:  0 10px 40px rgba(0,0,0,.15);
+     ▼ 사용 예시 ▼
+       padding: var(--spacing-md);          → 16px
+       gap: var(--spacing-sm);              → 8px
+       margin-bottom: var(--spacing-lg);    → 24px
+  ──────────────────────────────────────────────── */
+  --spacing-xs:  4px;   /* 아이콘과 텍스트 사이 등 매우 좁은 간격 */
+  --spacing-sm:  8px;   /* 버튼 내부 아이콘 간격, 배지 패딩 등     */
+  --spacing-md:  16px;  /* 카드 패딩, 섹션 내부 여백 등 기본 간격   */
+  --spacing-lg:  24px;  /* 카드 사이 간격, 섹션 하단 여백 등        */
+  --spacing-xl:  32px;  /* 주요 레이아웃 영역 간 간격               */
+  --spacing-2xl: 48px;  /* 페이지 상하 패딩, 빈 상태 안내 영역 등   */
+  --spacing-3xl: 64px;  /* 최대 여백, 히어로 섹션 등 넓은 공간      */
 
-  /* ── 전환 속도 */
-  --transition-fast:   150ms ease;
-  --transition-normal: 300ms ease;
-  --transition-slow:   500ms ease;
 
-  /* ── 줄 높이 */
-  --line-height-base: 1.6;
-  --line-height-tight: 1.3;
+  /* ────────────────────────────────────────────────
+     🔲 테두리 반경 토큰 (Border Radius Tokens)
+     요소의 모서리 둥글기를 단계별로 정의합니다.
+     숫자가 클수록 더 둥글게 표시됩니다.
+  ──────────────────────────────────────────────── */
+  --radius-sm:   4px;    /* 입력 필드 내부 요소, 작은 배지 등   */
+  --radius-md:   8px;    /* 버튼, 입력 필드, 소형 카드 등       */
+  --radius-lg:   16px;   /* 카드, 모달, 패널 등 주요 컨테이너   */
+  --radius-full: 9999px; /* 완전한 알약(pill) 형태, 원형 아바타  */
 
-  /* ── 네비게이션 너비 */
-  --nav-width: 220px;
 
-  /* ─────────────────────────────────────────────────
-     아래 토큰들은 스킨 파일에서 반드시 재정의됩니다.
-     fallback 값으로만 남겨둡니다.
-     ───────────────────────────────────────────────── */
-  --font-body:    system-ui, sans-serif;
-  --font-heading: system-ui, sans-serif;
-  --font-mono:    monospace;
+  /* ────────────────────────────────────────────────
+     🌫️ 그림자 토큰 (Shadow Tokens)
+     요소에 깊이감을 부여하는 box-shadow 단계입니다.
+     스킨 파일에서 재정의하여 테마에 맞게 조정할 수 있습니다.
+  ──────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);  /* 카드, 입력 필드 등 은은한 부각 */
+  --shadow-md: 0 4px 16px rgba(0,0,0,.1), 0 2px 6px rgba(0,0,0,.06);  /* 드롭다운, 팝오버 등 중간 부각  */
+  --shadow-lg: 0 10px 40px rgba(0,0,0,.15);                            /* 모달, 사이드패널 등 강한 부각   */
 
-  --color-primary:    #6366f1;
-  --color-on-primary: #ffffff;
-  --color-secondary:  #8b5cf6;
 
-  --color-bg:      #f8fafc;
-  --color-surface: #ffffff;
-  --color-border:  #e2e8f0;
+  /* ────────────────────────────────────────────────
+     ⚡ 전환 속도 토큰 (Transition Tokens)
+     hover, focus 등 상태 변화 시 애니메이션 속도를 정의합니다.
+     'ease'는 처음엔 빠르게, 끝에서 부드럽게 감속하는 곡선입니다.
+  ──────────────────────────────────────────────── */
+  --transition-fast:   150ms ease; /* 버튼 호버, 색상 변화 등 즉각적인 피드백 */
+  --transition-normal: 300ms ease; /* 패널 열림/닫힘, 메뉴 전환 등 일반 전환  */
+  --transition-slow:   500ms ease; /* 페이지 전환, 대형 애니메이션 등 느린 전환 */
 
-  --color-text:      #1e293b;
-  --color-text-muted:#64748b;
 
-  --color-nav-bg:   #1e293b;
-  --color-nav-text: #cbd5e1;
+  /* ────────────────────────────────────────────────
+     📏 줄 높이 토큰 (Line Height Tokens)
+     텍스트의 줄간격을 목적에 따라 두 단계로 정의합니다.
+  ──────────────────────────────────────────────── */
+  --line-height-base:  1.6; /* 본문(p) 등 긴 텍스트 → 넓은 줄간격으로 가독성 향상 */
+  --line-height-tight: 1.3; /* 제목(h1~h6) 등 짧은 텍스트 → 좁은 줄간격으로 덩어리감 유지 */
 
-  --color-success:    #16a34a;
-  --color-success-bg: #dcfce7;
-  --color-error:      #dc2626;
-  --color-error-bg:   #fee2e2;
-  --color-warning:    #d97706;
-  --color-warning-bg: #fef3c7;
+
+  /* ────────────────────────────────────────────────
+     🗂️ 레이아웃 토큰 (Layout Tokens)
+     앱의 구조적 크기 값을 정의합니다.
+  ──────────────────────────────────────────────── */
+  --nav-width: 220px; /* 왼쪽 사이드 내비게이션 고정 너비 */
+
+
+  /* ═══════════════════════════════════════════════
+     ⚠️ 아래 토큰들은 스킨 파일에서 반드시 재정의됩니다.
+        이 파일의 값은 스킨 로드 실패 시를 대비한
+        fallback(비상 기본값)으로만 사용됩니다.
+     ═══════════════════════════════════════════════ */
+
+
+  /* ────────────────────────────────────────────────
+     🔤 글꼴 토큰 (Font Tokens)
+     스킨에서 브랜드 전용 웹폰트로 재정의됩니다.
+     fallback으로 시스템 기본 폰트를 지정합니다.
+  ──────────────────────────────────────────────── */
+  --font-body:    system-ui, sans-serif; /* 본문용 폰트 */
+  --font-heading: system-ui, sans-serif; /* 제목용 폰트 */
+  --font-mono:    monospace;             /* 코드, 숫자 등 고정폭 폰트 */
+
+
+  /* ────────────────────────────────────────────────
+     🎨 색상 토큰 (Color Tokens)
+     스킨 파일에서 테마에 맞는 색상으로 재정의됩니다.
+
+     ▼ 토큰 그룹 구성 ▼
+       - 브랜드 색상  : primary, secondary (주요 UI 강조색)
+       - 배경 색상   : bg, surface, border (레이아웃 배경)
+       - 텍스트 색상 : text, text-muted (글자 명도 단계)
+       - 내비게이션  : nav-bg, nav-text (사이드바 전용)
+       - 상태 색상   : success, error, warning (피드백 색상)
+  ──────────────────────────────────────────────── */
+
+  /* ── 브랜드 색상 */
+  --color-primary:    #6366f1; /* 버튼, 링크, 액센트 등 주요 강조색 */
+  --color-on-primary: #ffffff; /* primary 배경 위에 올라가는 텍스트 색상 */
+  --color-secondary:  #8b5cf6; /* 보조 강조색 */
+
+  /* ── 배경 색상 */
+  --color-bg:      #f8fafc; /* 페이지 전체 배경색 */
+  --color-surface: #ffffff; /* 카드, 모달 등 부유된 요소의 배경색 */
+  --color-border:  #e2e8f0; /* 구분선, 입력 필드 테두리 등 */
+
+  /* ── 텍스트 색상 */
+  --color-text:       #1e293b; /* 본문, 제목 등 주요 텍스트 */
+  --color-text-muted: #64748b; /* 힌트, 부가 설명 등 보조 텍스트 */
+
+  /* ── 내비게이션 전용 색상 */
+  --color-nav-bg:   #1e293b; /* 사이드바 배경색 */
+  --color-nav-text: #cbd5e1; /* 사이드바 메뉴 텍스트 색상 */
+
+  /* ── 상태 색상 (배경색 + 텍스트 색상 쌍으로 구성) */
+  --color-success:    #16a34a; /* 성공/완료 텍스트 색상 (초록) */
+  --color-success-bg: #dcfce7; /* 성공 배지·알림 배경색 */
+  --color-error:      #dc2626; /* 오류/실패 텍스트 색상 (빨강) */
+  --color-error-bg:   #fee2e2; /* 오류 배지·알림 배경색 */
+  --color-warning:    #d97706; /* 경고/주의 텍스트 색상 (주황) */
+  --color-warning-bg: #fef3c7; /* 경고 배지·알림 배경색 */
 }
